@@ -1,0 +1,33 @@
+# Build outputs
+output/
+*.deb
+*.rpm
+*.zip
+*.tar.gz
+
+# Compiled binaries
+spry-sqlpage
+spry-sqlpage-*
+
+# Deno
+.deno/
+deno.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+

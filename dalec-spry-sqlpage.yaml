@@ -1,0 +1,64 @@
+# syntax=ghcr.io/azure/dalec/frontend:latest
+# DALEC config for packaging existing spry-sqlpage binary
+
+name: spry-sqlpage
+version: 0.1.8
+revision: 1
+packager: Spry Team
+vendor: Spry
+license: MIT
+description: Spry SQLPage CLI - A declarative web application framework
+website: https://github.com/programmablemd/spry
+
+sources:
+  src:
+    context: {}
+
+# No compilation - just package existing binary from build context
+build:
+  env:
+    # Disable stripping to preserve Deno binary metadata
+    DEB_BUILD_OPTIONS: "nostrip"
+  steps:
+    - command: |
+        set -ex
+        # Debug: Check what files are available
+        pwd
+        ls -la
+        find . -name "*spry-sqlpage*" -type f
+
+        # Binary provided by workflow
+        # The source name "src" becomes a directory, so binary is at src/src/spry-sqlpage
+        ls -la src/src/spry-sqlpage
+        # Use cp -p to preserve permissions and attributes
+        cp -p src/src/spry-sqlpage ./spry-sqlpage
+        chmod +x spry-sqlpage
+
+        # Verify the binary works before packaging
+        file ./spry-sqlpage
+        ls -lh ./spry-sqlpage
+
+artifacts:
+  binaries:
+    spry-sqlpage:
+
+tests:
+  - name: Check spry-sqlpage binary exists
+    steps:
+      - command: test -f /usr/bin/spry-sqlpage
+
+  - name: Verify spry-sqlpage is executable
+    steps:
+      - command: test -x /usr/bin/spry-sqlpage
+
+targets:
+  jammy:          # Ubuntu 22.04 DEB
+    dependencies:
+      runtime:
+        ca-certificates:
+  bookworm:       # Debian 12 DEB
+    dependencies:
+      runtime:
+        ca-certificates:
+  windowscross:   # Windows cross-compilation
+

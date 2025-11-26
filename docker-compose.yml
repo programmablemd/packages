@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  build-jammy:
+    image: docker:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/workspace
+    working_dir: /workspace
+    command: >
+      sh -c "
+        docker buildx build
+          --target jammy
+          --output type=local,dest=./output/jammy
+          -f dalec-spry-sqlpage.yaml
+          .
+      "
+
+  build-bookworm:
+    image: docker:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/workspace
+    working_dir: /workspace
+    command: >
+      sh -c "
+        docker buildx build
+          --target bookworm
+          --output type=local,dest=./output/bookworm
+          -f dalec-spry-sqlpage.yaml
+          .
+      "
+
+  build-rocky:
+    image: docker:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/workspace
+    working_dir: /workspace
+    command: >
+      sh -c "
+        docker buildx build
+          --target rockylinux9
+          --output type=local,dest=./output/rockylinux9
+          -f dalec-spry-sqlpage.yaml
+          .
+      "
+
+  build-alma:
+    image: docker:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/workspace
+    working_dir: /workspace
+    command: >
+      sh -c "
+        docker buildx build
+          --target almalinux9
+          --output type=local,dest=./output/almalinux9
+          -f dalec-spry-sqlpage.yaml
+          .
+      "
+
+  build-windows:
+    image: docker:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .:/workspace
+    working_dir: /workspace
+    command: >
+      sh -c "
+        docker buildx build
+          --target windowscross
+          --output type=local,dest=./output/windows
+          -f dalec-spry-sqlpage.yaml
+          .
+      "
+

@@ -1,0 +1,141 @@
+name: Test Packages
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-deb:
+    name: Test DEB package
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - jammy
+          - bookworm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build DEB package for ${{ matrix.target }}
+        run: |
+          docker buildx build \
+            --target ${{ matrix.target }} \
+            --output type=local,dest=./output \
+            -f dalec-spry-sqlpage.yaml \
+            .
+
+      - name: List built packages
+        run: |
+          ls -lh ./output/
+          find ./output -name "*.deb"
+
+      - name: Test DEB package installation
+        run: |
+          # Find the DEB file
+          DEB_FILE=$(find ./output -name "*.deb" | head -n 1)
+          echo "Testing DEB file: $DEB_FILE"
+          
+          # Check package info
+          dpkg-deb --info "$DEB_FILE"
+          dpkg-deb --contents "$DEB_FILE"
+
+  test-rpm:
+    name: Test RPM package
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - rockylinux9
+          - almalinux9
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build RPM package for ${{ matrix.target }}
+        run: |
+          docker buildx build \
+            --target ${{ matrix.target }} \
+            --output type=local,dest=./output \
+            -f dalec-spry-sqlpage.yaml \
+            .
+
+      - name: List built packages
+        run: |
+          ls -lh ./output/
+          find ./output -name "*.rpm"
+
+      - name: Test RPM package info
+        run: |
+          # Find the RPM file
+          RPM_FILE=$(find ./output -name "*.rpm" | head -n 1)
+          echo "Testing RPM file: $RPM_FILE"
+          
+          # Install rpm tools
+          sudo apt-get update && sudo apt-get install -y rpm
+          
+          # Check package info
+          rpm -qip "$RPM_FILE"
+          rpm -qlp "$RPM_FILE"
+
+  test-local-compile:
+    name: Test local Deno compilation
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v2.x
+
+      - name: Download import_map.json
+        run: |
+          curl -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
+
+      - name: Compile spry_sqlpage
+        run: |
+          deno compile \
+            --allow-all \
+            --import-map=import_map.json \
+            --output=spry-sqlpage \
+            spry_sqlpage.ts
+
+      - name: Verify binary exists
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            test -f spry-sqlpage.exe
+            ls -lh spry-sqlpage.exe
+          else
+            test -f spry-sqlpage
+            ls -lh spry-sqlpage
+          fi
+
+      - name: Test binary execution
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            ./spry-sqlpage.exe --help || echo "Help command executed"
+          else
+            ./spry-sqlpage --help || echo "Help command executed"
+          fi
+

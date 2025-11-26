@@ -133,7 +133,6 @@ This repository is powered by [DALEC](https://github.com/project-dalec/dalec) fo
 
 - **Ubuntu packages** (.deb for jammy)
 - **Debian packages** (.deb for bookworm)
-- **RPM packages** (.rpm for Rocky Linux 9, Alma Linux 9)
 - **Windows binaries** (.zip)
 - **macOS binaries** (.tar.gz)
 

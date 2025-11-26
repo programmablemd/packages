@@ -21,6 +21,9 @@ jobs:
       contents: read
       packages: write
 
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+
     strategy:
       matrix:
         target:
@@ -32,6 +35,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Get version from DALEC config
+        id: get-version
+        run: |
+          VERSION=$(grep '^version:' dalec-spry-sqlpage.yaml | awk '{print $2}')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
 
       - name: Install Deno
         uses: denoland/setup-deno@v1
@@ -209,14 +219,14 @@ jobs:
 
             #### Ubuntu 22.04 (Jammy)
             ```bash
-            wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/spry-sqlpage_*ubuntu22.04*_amd64.deb
-            sudo dpkg -i spry-sqlpage_*ubuntu22.04*_amd64.deb
+            wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/spry-sqlpage_${{ needs.build-deb.outputs.version }}-ubuntu22.04u1_amd64.deb
+            sudo dpkg -i spry-sqlpage_${{ needs.build-deb.outputs.version }}-ubuntu22.04u1_amd64.deb
             ```
 
             #### Debian 12 (Bookworm)
             ```bash
-            wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/spry-sqlpage_*debian12*_amd64.deb
-            sudo dpkg -i spry-sqlpage_*debian12*_amd64.deb
+            wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/spry-sqlpage_${{ needs.build-deb.outputs.version }}-debian12u1_amd64.deb
+            sudo dpkg -i spry-sqlpage_${{ needs.build-deb.outputs.version }}-debian12u1_amd64.deb
             ```
 
             #### Windows

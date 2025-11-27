@@ -27,11 +27,11 @@ See [HOMEBREW.md](HOMEBREW.md) for more details.
 
 ```bash
 # Ubuntu 22.04 (Jammy)
-wget https://github.com/programmablemd/packages/releases/download/v0.1.0/spry-sqlpage_0.1.0-ubuntu22.04u1_amd64.deb
+wget https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage_0.1.0-ubuntu22.04u1_amd64.deb
 sudo dpkg -i spry-sqlpage_0.1.0-ubuntu22.04u1_amd64.deb
 
 # Debian 12 (Bookworm)
-wget https://github.com/programmablemd/packages/releases/download/v0.1.0/spry-sqlpage_0.1.0-debian12u1_amd64.deb
+wget https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage_0.1.0-debian12u1_amd64.deb
 sudo dpkg -i spry-sqlpage_0.1.0-debian12u1_amd64.deb
 ```
 
@@ -41,7 +41,7 @@ If you prefer not to use Homebrew:
 
 ```bash
 # Download and extract
-wget https://github.com/programmablemd/packages/releases/download/v0.1.0/spry-sqlpage-macos.tar.gz
+wget https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage-macos.tar.gz
 tar -xzf spry-sqlpage-macos.tar.gz
 sudo mv spry-sqlpage-macos /usr/local/bin/spry-sqlpage
 ```
@@ -50,8 +50,8 @@ sudo mv spry-sqlpage-macos /usr/local/bin/spry-sqlpage
 
 ```powershell
 # Download the Windows packages
-# https://github.com/programmablemd/packages/releases/download/v0.1.0/spry-sqlpage-windows.zip
-# https://github.com/programmablemd/packages/releases/download/v0.1.0/spry-runbook-windows.zip
+# https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage-windows.zip
+# https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-runbook-windows.zip
 
 # Extract the zip files and run:
 .\spry-sqlpage.exe --help

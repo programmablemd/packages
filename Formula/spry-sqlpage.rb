@@ -16,7 +16,7 @@ class SprySqlpage < Formula
 
   on_linux do
     url "https://github.com/programmablemd/packages/releases/download/v0.1.0/spry-sqlpage_0.1.0-ubuntu22.04u1_amd64.deb"
-    sha256 "95a1f8c423fd6848ebb02bc2603a724fbbb7109420a8acc968fb151167386827"
+    sha256 "b42fbd156af7101651d1e570958be896b67d4d857c1c5efc09c2a8e56723a0b0"
   end
 
   def install

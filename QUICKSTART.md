@@ -23,11 +23,12 @@ spry-sqlpage --version
 
 ```bash
 # Download and extract
-wget https://github.com/programmablemd/packages/releases/latest/download/spry-sqlpage-macos.tar.gz
+wget https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage-macos.tar.gz
 tar -xzf spry-sqlpage-macos.tar.gz
 
 # Move to PATH
-sudo mv spry-sqlpage /usr/local/bin/
+sudo cp spry-sqlpage-macos /usr/local/bin/spry-sqlpage
+chmod +x /usr/local/bin/spry-sqlpage
 
 # Verify installation
 spry-sqlpage --version

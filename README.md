@@ -33,12 +33,12 @@ See [HOMEBREW.md](HOMEBREW.md) for more details.
 
 ```bash
 # Ubuntu 22.04 (Jammy)
-wget https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage_0.1.0-ubuntu22.04u1_amd64.deb
-sudo dpkg -i spry-sqlpage_0.1.0-ubuntu22.04u1_amd64.deb
+wget https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage_0.1.1-ubuntu22.04u1_amd64.deb
+sudo dpkg -i spry-sqlpage_0.1.1-ubuntu22.04u1_amd64.deb
 
 # Debian 12 (Bookworm)
-wget https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage_0.1.0-debian12u1_amd64.deb
-sudo dpkg -i spry-sqlpage_0.1.0-debian12u1_amd64.deb
+wget https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage_0.1.1-debian12u1_amd64.deb
+sudo dpkg -i spry-sqlpage_0.1.1-debian12u1_amd64.deb
 ```
 
 #### macOS (Manual Installation)

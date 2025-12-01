@@ -7,10 +7,10 @@ class SpryRunbook < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-runbook-macos.tar.gz"
-      sha256 "PLACEHOLDER_MACOS_SHA256"
+      sha256 "09c21b73030e8e343654a3cb4e3733d54b6e0ac01ad17ac18c9eaaf43be262d3"
     else
       url "https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-runbook-macos.tar.gz"
-      sha256 "PLACEHOLDER_MACOS_SHA256"
+      sha256 "09c21b73030e8e343654a3cb4e3733d54b6e0ac01ad17ac18c9eaaf43be262d3"
     end
   end
 

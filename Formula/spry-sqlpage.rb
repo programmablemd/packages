@@ -7,10 +7,10 @@ class SprySqlpage < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage-macos.tar.gz"
-      sha256 "f99bd25fa9e28b3390a01d27c824687b7cf7af155339a4e62c08c8e9e7fff407"
+      sha256 "c37e5835d8b3e1dc58638eb69b8052d4a7336b3a1820e0b124f8fcb3dfd5211e"
     else
       url "https://github.com/programmablemd/packages/releases/download/v0.1.1/spry-sqlpage-macos.tar.gz"
-      sha256 "f99bd25fa9e28b3390a01d27c824687b7cf7af155339a4e62c08c8e9e7fff407"
+      sha256 "c37e5835d8b3e1dc58638eb69b8052d4a7336b3a1820e0b124f8fcb3dfd5211e"
     end
   end
 

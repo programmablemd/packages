@@ -10,10 +10,10 @@ Get started with Spry DALEC packages (spry-sqlpage and spry-runbook) in minutes!
 
 ```bash
 # Download the latest release
-wget https://github.com/programmablemd/packages/releases/download/v0.80.0/spry-sqlpage_0.80.0-ubuntu22.04u1_amd64.deb
+wget https://github.com/programmablemd/packages/releases/download/v0.90.0/spry-sqlpage_0.90.0-ubuntu22.04u1_amd64.deb
 
 # Install
-sudo dpkg -i spry-sqlpage_0.80.0-ubuntu22.04u1_amd64.deb
+sudo dpkg -i spry-sqlpage_0.90.0-ubuntu22.04u1_amd64.deb
 
 # Verify installation
 spry-sqlpage --version
@@ -23,7 +23,7 @@ spry-sqlpage --version
 
 ```bash
 # Download and extract
-wget https://github.com/programmablemd/packages/releases/download/v0.80.0/spry-sqlpage-macos.tar.gz
+wget https://github.com/programmablemd/packages/releases/download/v0.90.0/spry-sqlpage-macos.tar.gz
 tar -xzf spry-sqlpage-macos.tar.gz
 
 # Move to PATH

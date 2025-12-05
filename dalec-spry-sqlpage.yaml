@@ -2,7 +2,7 @@
 # DALEC config for packaging spry-sqlpage and spry-runbook binaries
 
 name: spry-sqlpage
-version: 0.80.0
+version: 0.90.0
 revision: 1
 packager: Spry Team
 vendor: Spry

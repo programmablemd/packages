@@ -1,14 +1,13 @@
 # Homebrew Installation
 
-This repository can be used as a Homebrew tap to install `spry-sqlpage` and `spry-runbook` on macOS and Linux.
+This repository can be used as a Homebrew tap to install `spry` on macOS and Linux.
 
 ## Installation
 
 ### Option 1: Install directly (without tapping)
 
 ```bash
-brew install programmablemd/packages/spry-sqlpage
-brew install programmablemd/packages/spry-runbook
+brew install programmablemd/packages/spry
 ```
 
 ### Option 2: Install from this tap
@@ -17,26 +16,17 @@ brew install programmablemd/packages/spry-runbook
 # Add the tap
 brew tap programmablemd/homebrew-packages
 
-# Install spry-runbook and spry-runbook
-brew install spry-sqlpage spry-runbook
-
-# Install spry-sqlpage
-brew install spry-sqlpage
-
-# Install spry-runbook
-brew install spry-runbook
+# Install spry
+brew install spry
 ```
 
 ## Usage
 
-After installation, you can use the `spry-sqlpage` and `spry-runbook` commands:
+After installation, you can use the `spry` command:
 
 ```bash
-spry-sqlpage --help
-spry-sqlpage --version
-
-spry-runbook --help
-spry-runbook --version
+spry --help
+spry --version
 ```
 
 ## Updating
@@ -45,15 +35,15 @@ To update to the latest version:
 
 ```bash
 brew update
-brew upgrade spry-sqlpage spry-runbook
+brew upgrade spry
 ```
 
 ### Uninstalling
 
-To remove the tools:
+To remove the tool:
 
 ```bash
-brew uninstall spry-runbook spry-sqlpage
+brew uninstall spry
 ```
 
 To remove the tap:
@@ -78,20 +68,22 @@ brew untap programmablemd/homebrew-packages
 If you encounter issues:
 
 1. Make sure Homebrew is up to date:
+
    ```bash
    brew update
    ```
 
 2. Try reinstalling:
+
    ```bash
-   brew uninstall spry-sqlpage spry-runbook
-   brew install spry-sqlpage spry-runbook
+   brew uninstall spry
+   brew install spry
    ```
 
 3. Check the formula:
+
    ```bash
-   brew info spry-sqlpage
-   brew info spry-runbook
+   brew info spry
    ```
 
 ## Manual Installation

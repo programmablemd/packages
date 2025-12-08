@@ -42,84 +42,60 @@ download-deps: ## Download import_map.json and deno.jsonc from Spry repository
 		echo "✅ deno.jsonc already exists"; \
 	fi
 
-build-windows: download-deps ## Build Windows packages (native Deno compilation)
-	@echo "Compiling spry_sqlpage for Windows..."
+build-windows: download-deps ## Build Windows package (native Deno compilation)
+	@echo "Compiling spry for Windows..."
 	deno compile \
 		--allow-all \
 		--import-map=import_map.json \
 		--target x86_64-pc-windows-msvc \
-		--output=spry-sqlpage.exe \
-		spry_sqlpage.ts
-	@echo "Compiling spry_runbook for Windows..."
-	deno compile \
-		--allow-all \
-		--import-map=import_map.json \
-		--target x86_64-pc-windows-msvc \
-		--output=spry-runbook.exe \
-		spry_runbook.ts
-	@echo "Packaging Windows binaries..."
+		--output=spry.exe \
+		spry.ts
+	@echo "Packaging Windows binary..."
 	mkdir -p output
-	zip output/spry-sqlpage-windows.zip spry-sqlpage.exe
-	zip output/spry-runbook-windows.zip spry-runbook.exe
-	@echo "✅ Windows packages created: output/spry-sqlpage-windows.zip, output/spry-runbook-windows.zip"
+	zip output/spry-windows.zip spry.exe
+	@echo "✅ Windows package created: output/spry-windows.zip"
 
-compile-local: download-deps ## Compile spry_sqlpage and spry_runbook locally with Deno
-	@if [ ! -f spry-sqlpage ]; then \
-		echo "Compiling spry_sqlpage..."; \
+compile-local: download-deps ## Compile spry locally with Deno
+	@if [ ! -f spry ]; then \
+		echo "Compiling spry..."; \
 		deno compile \
 			--allow-all \
 			--import-map=import_map.json \
-			--output=spry-sqlpage \
-			spry_sqlpage.ts; \
-		echo "✅ Done! Binary created: ./spry-sqlpage"; \
+			--output=spry \
+			spry.ts; \
+		echo "✅ Done! Binary created: ./spry"; \
 	else \
-		echo "✅ Binary already exists: ./spry-sqlpage"; \
-	fi
-	@if [ ! -f spry-runbook ]; then \
-		echo "Compiling spry_runbook..."; \
-		deno compile \
-			--allow-all \
-			--import-map=import_map.json \
-			--output=spry-runbook \
-			spry_runbook.ts; \
-		echo "✅ Done! Binary created: ./spry-runbook"; \
-	else \
-		echo "✅ Binary already exists: ./spry-runbook"; \
+		echo "✅ Binary already exists: ./spry"; \
 	fi
 
 prepare-src: compile-local ## Prepare src directory for DALEC
 	@echo "Preparing src directory for DALEC..."
 	@mkdir -p src/src
-	@cp spry-sqlpage src/src/spry-sqlpage
-	@cp spry-runbook src/src/spry-runbook
-	@chmod +x src/src/spry-sqlpage src/src/spry-runbook
-	@echo "✅ Binaries prepared in src/src/ directory"
+	@cp spry src/src/spry
+	@chmod +x src/src/spry
+	@echo "✅ Binary prepared in src/src/ directory"
 
-test: ## Test the compiled binaries
-	@echo "Testing spry-sqlpage binary..."
-	./spry-sqlpage --help || echo "Binary not found. Run 'make compile-local' first."
-	@echo "Testing spry-runbook binary..."
-	./spry-runbook --help || echo "Binary not found. Run 'make compile-local' first."
+test: ## Test the compiled binary
+	@echo "Testing spry binary..."
+	./spry --help || echo "Binary not found. Run 'make compile-local' first."
 
 clean: ## Clean build artifacts
 	@echo "Cleaning build artifacts..."
 	rm -rf output/
 	rm -rf src/
-	rm -f spry-sqlpage
-	rm -f spry-sqlpage-*
-	rm -f spry-runbook
-	rm -f spry-runbook-*
+	rm -f spry
+	rm -f spry.exe
+	rm -f spry-*
 	@echo "✅ Clean complete."
 
-install: ## Install spry-sqlpage and spry-runbook locally (requires sudo)
-	@echo "Installing spry-sqlpage and spry-runbook to /usr/local/bin..."
-	sudo cp spry-sqlpage /usr/local/bin/spry-sqlpage
-	sudo cp spry-runbook /usr/local/bin/spry-runbook
-	sudo chmod +x /usr/local/bin/spry-sqlpage /usr/local/bin/spry-runbook
-	@echo "Installation complete. Run 'spry-sqlpage --help' and 'spry-runbook --help' to verify."
+install: ## Install spry locally (requires sudo)
+	@echo "Installing spry to /usr/local/bin..."
+	sudo cp spry /usr/local/bin/spry
+	sudo chmod +x /usr/local/bin/spry
+	@echo "Installation complete. Run 'spry --help' to verify."
 
-uninstall: ## Uninstall spry-sqlpage and spry-runbook from system
-	@echo "Uninstalling spry-sqlpage and spry-runbook..."
-	sudo rm -f /usr/local/bin/spry-sqlpage /usr/local/bin/spry-runbook
+uninstall: ## Uninstall spry from system
+	@echo "Uninstalling spry..."
+	sudo rm -f /usr/local/bin/spry
 	@echo "Uninstall complete."
 

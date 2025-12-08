@@ -53,34 +53,23 @@ jobs:
           curl -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
           curl -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
-      - name: Compile spry_sqlpage binary
+      - name: Compile spry binary
         run: |
           deno compile \
             --allow-all \
             --import-map=import_map.json \
-            --output=spry-sqlpage \
-            spry_sqlpage.ts
+            --output=spry \
+            spry.ts
 
-          echo "✅ spry-sqlpage binary compiled."
+          echo "✅ spry binary compiled."
 
-      - name: Compile spry_runbook binary
-        run: |
-          deno compile \
-            --allow-all \
-            --import-map=import_map.json \
-            --output=spry-runbook \
-            spry_runbook.ts
-
-          echo "✅ spry-runbook binary compiled."
-
-      - name: Prepare binaries for DALEC
+      - name: Prepare binary for DALEC
         run: |
           mkdir -p src/src
-          cp spry-sqlpage src/src/spry-sqlpage
-          cp spry-runbook src/src/spry-runbook
-          chmod +x src/src/spry-sqlpage src/src/spry-runbook
+          cp spry src/src/spry
+          chmod +x src/src/spry
 
-          echo "✅ Binaries prepared in src/src/ directory."
+          echo "✅ Binary prepared in src/src/ directory."
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -132,45 +121,27 @@ jobs:
           curl -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
           curl -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
-      - name: Compile spry_sqlpage binary for Windows
+      - name: Compile spry binary for Windows
         run: |
           deno compile \
             --allow-all \
             --import-map=import_map.json \
             --target x86_64-pc-windows-msvc \
-            --output=spry-sqlpage.exe \
-            spry_sqlpage.ts
+            --output=spry.exe \
+            spry.ts
 
-          echo "✅ spry-sqlpage.exe binary compiled for Windows."
+          echo "✅ spry.exe binary compiled for Windows."
 
-      - name: Compile spry_runbook binary for Windows
-        run: |
-          deno compile \
-            --allow-all \
-            --import-map=import_map.json \
-            --target x86_64-pc-windows-msvc \
-            --output=spry-runbook.exe \
-            spry_runbook.ts
-
-          echo "✅ spry-runbook.exe binary compiled for Windows."
-
-      - name: Package Windows binaries
+      - name: Package Windows binary
         run: |
           mkdir -p output
-          zip output/spry-sqlpage-windows.zip spry-sqlpage.exe
-          zip output/spry-runbook-windows.zip spry-runbook.exe
+          zip output/spry-windows.zip spry.exe
 
-      - name: Upload Windows spry-sqlpage artifact
+      - name: Upload Windows spry artifact
         uses: actions/upload-artifact@v4
         with:
-          name: spry-sqlpage-windows
-          path: output/spry-sqlpage-windows.zip
-
-      - name: Upload Windows spry-runbook artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: spry-runbook-windows
-          path: output/spry-runbook-windows.zip
+          name: spry-windows
+          path: output/spry-windows.zip
 
   build-macos:
     name: Build macOS binaries
@@ -192,46 +163,29 @@ jobs:
           curl -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
           curl -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
-      - name: Compile spry_sqlpage for macOS
+      - name: Compile spry for macOS
         run: |
           deno compile \
             --allow-all \
             --import-map=import_map.json \
-            --output=spry-sqlpage-macos \
-            spry_sqlpage.ts
+            --output=spry-macos \
+            spry.ts
 
-          echo "✅ spry-sqlpage macOS binary compiled."
+          echo "✅ spry macOS binary compiled."
 
-      - name: Compile spry_runbook for macOS
-        run: |
-          deno compile \
-            --allow-all \
-            --import-map=import_map.json \
-            --output=spry-runbook-macos \
-            spry_runbook.ts
-
-          echo "✅ spry-runbook macOS binary compiled."
-
-      - name: Create macOS archives
+      - name: Create macOS archive
         run: |
           mkdir -p output
-          tar -czf output/spry-sqlpage-macos.tar.gz spry-sqlpage-macos
-          tar -czf output/spry-runbook-macos.tar.gz spry-runbook-macos
+          tar -czf output/spry-macos.tar.gz spry-macos
 
-          echo "📦 macOS archives created:"
+          echo "📦 macOS archive created:"
           ls -lh output/
 
-      - name: Upload macOS spry-sqlpage artifact
+      - name: Upload macOS spry artifact
         uses: actions/upload-artifact@v4
         with:
-          name: spry-sqlpage-macos
-          path: ./output/spry-sqlpage-macos.tar.gz
-
-      - name: Upload macOS spry-runbook artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: spry-runbook-macos
-          path: ./output/spry-runbook-macos.tar.gz
+          name: spry-macos
+          path: ./output/spry-macos.tar.gz
 
   release:
     name: Create Release
@@ -274,7 +228,7 @@ jobs:
           draft: false
           prerelease: false
           body: |
-            ## Spry SQLPage ${{ github.ref_name }}
+            ## Spry ${{ github.ref_name }}
 
             ### 📦 Package Managers (Recommended)
 
@@ -292,23 +246,23 @@ jobs:
 
             #### Windows
             ```powershell
-            # Download and extract spry-sqlpage-windows.zip
-            # Run spry-sqlpage.exe from the extracted folder
+            # Download and extract spry-windows.zip
+            # Run spry.exe from the extracted folder
             ```
 
             #### macOS
             ```bash
-            wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/spry-sqlpage-macos.tar.gz
-            tar -xzf spry-sqlpage-macos.tar.gz
-            sudo cp spry-sqlpage-macos /usr/local/bin/spry-sqlpage
-            chmod +x /usr/local/bin/spry-sqlpage
+            wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/spry-macos.tar.gz
+            tar -xzf spry-macos.tar.gz
+            sudo cp spry-macos /usr/local/bin/spry
+            chmod +x /usr/local/bin/spry
             ```
 
             ### 🔍 Verification
-            After installation, verify that spry-sqlpage is working correctly:
+            After installation, verify that spry is working correctly:
             ```bash
-            spry-sqlpage --version
-            spry-sqlpage --help
+            spry --version
+            spry --help
             ```
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -5,8 +5,7 @@ This checklist verifies that all components of the Spry packages DALEC project a
 ## ✅ Core Files
 
 - [x] `dalec-spry-sqlpage.yaml` - DALEC specification
-- [x] `spry_sqlpage.ts` - Main TypeScript file for spry-sqlpage
-- [x] `spry_runbook.ts` - Main TypeScript file for spry-runbook
+- [x] `spry.ts` - Main TypeScript file for spry CLI
 - [x] `import_map.json` - Deno import map (downloaded from Spry repo)
 
 ## ✅ Build Automation
@@ -53,7 +52,7 @@ This checklist verifies that all components of the Spry packages DALEC project a
 - [x] `make build-jammy` - Ubuntu Jammy
 - [x] `make build-bookworm` - Debian Bookworm
 - [x] `make build-windows` - Windows
-- [x] `make compile-local` - Local Deno compilation (both spry-sqlpage and spry-runbook)
+- [x] `make compile-local` - Local Deno compilation (spry)
 - [x] `make clean` - Clean artifacts
 - [x] `make test` - Test binaries
 - [x] `make install` - Install locally
@@ -90,7 +89,7 @@ This checklist verifies that all components of the Spry packages DALEC project a
 ### Future Enhancements
 
 - [ ] Add package signing (GPG)
-- [x] Create Homebrew formulas (spry-sqlpage.rb, spry-runbook.rb)
+- [x] Create Homebrew formula (spry-sqlpage.rb)
 - [ ] Create Chocolatey package
 - [ ] Add ARM64 support
 - [ ] Create Docker images
@@ -102,11 +101,11 @@ This checklist verifies that all components of the Spry packages DALEC project a
 
 ## 📊 Project Statistics
 
-- **Total Files**: 22
+- **Total Files**: 20
 - **Documentation Files**: 8
 - **Workflow Files**: 2
 - **Build Files**: 3
-- **Source Files**: 2
+- **Source Files**: 1
 - **Configuration Files**: 3
 - **Template Files**: 2
 - **Script Files**: 1
@@ -136,9 +135,9 @@ All core functionality has been implemented and documented. The project is ready
 
 ## 📝 Notes
 
-- The project follows the structure of https://github.com/project-dalec/dalec
-- Uses the same approach as https://github.com/surveilr/packages
-- Compiles using: `deno compile --allow-all --import-map=import_map.json spry_sqlpage.ts`
+- The project follows the structure of <https://github.com/project-dalec/dalec>
+- Uses the same approach as <https://github.com/surveilr/packages>
+- Compiles using: `deno compile --allow-all --import-map=import_map.json spry.ts`
 - All documentation is comprehensive and user-friendly
 - Build process is automated and reproducible
 

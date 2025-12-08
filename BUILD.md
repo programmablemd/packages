@@ -1,6 +1,6 @@
 # Building Spry Packages
 
-This document describes how to build spry-sqlpage and spry-runbook packages for various operating systems using DALEC.
+This document describes how to build spry packages for various operating systems using DALEC.
 
 ## Prerequisites
 
@@ -31,7 +31,8 @@ export DOCKER_BUILDKIT=1
 make build-all
 ```
 
-This will build packages containing both spry-sqlpage and spry-runbook for:
+This will build spry packages for:
+
 - Ubuntu 22.04 (Jammy) - DEB
 - Debian 12 (Bookworm) - DEB
 - Windows - ZIP (cross-compiled)
@@ -100,21 +101,15 @@ For development and testing, you can compile directly with Deno:
 # Install Deno (if not already installed)
 curl -fsSL https://deno.land/install.sh | sh
 
-# Compile both spry-sqlpage and spry-runbook
+# Compile spry
 make compile-local
 
 # Or manually:
 deno compile \
   --allow-all \
   --import-map=import_map.json \
-  --output=spry-sqlpage \
-  spry_sqlpage.ts
-
-deno compile \
-  --allow-all \
-  --import-map=import_map.json \
-  --output=spry-runbook \
-  spry_runbook.ts
+  --output=spry \
+  spry.ts
 ```
 
 ## Output Location
@@ -128,8 +123,7 @@ output/
 ├── bookworm/
 │   └── spry-sqlpage_0.1.0-1_amd64.deb
 └── windows/
-    ├── spry-sqlpage-windows.zip
-    └── spry-runbook-windows.zip
+    └── spry-windows.zip
 ```
 
 ## Troubleshooting

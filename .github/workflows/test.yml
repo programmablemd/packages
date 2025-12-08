@@ -71,50 +71,31 @@ jobs:
           curl -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
           curl -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
-      - name: Compile spry_sqlpage
+      - name: Compile spry
         run: |
           deno compile \
             --allow-all \
             --import-map=import_map.json \
-            --output=spry-sqlpage \
-            spry_sqlpage.ts
+            --output=spry \
+            spry.ts
 
-      - name: Compile spry_runbook
-        run: |
-          deno compile \
-            --allow-all \
-            --import-map=import_map.json \
-            --output=spry-runbook \
-            spry_runbook.ts
-
-      - name: Verify binaries exist
+      - name: Verify binary exists
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
-            test -f spry-sqlpage.exe
-            test -f spry-runbook.exe
-            ls -lh spry-sqlpage.exe spry-runbook.exe
+            test -f spry.exe
+            ls -lh spry.exe
           else
-            test -f spry-sqlpage
-            test -f spry-runbook
-            ls -lh spry-sqlpage spry-runbook
+            test -f spry
+            ls -lh spry
           fi
 
-      - name: Test spry-sqlpage execution
+      - name: Test spry execution
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
-            ./spry-sqlpage.exe --help || echo "Help command executed"
+            ./spry.exe --help || echo "Help command executed"
           else
-            ./spry-sqlpage --help || echo "Help command executed"
-          fi
-
-      - name: Test spry-runbook execution
-        shell: bash
-        run: |
-          if [ "$RUNNER_OS" == "Windows" ]; then
-            ./spry-runbook.exe --help || echo "Help command executed"
-          else
-            ./spry-runbook --help || echo "Help command executed"
+            ./spry --help || echo "Help command executed"
           fi
 

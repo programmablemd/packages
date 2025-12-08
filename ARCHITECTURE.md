@@ -4,11 +4,11 @@ This document describes the architecture and design decisions for the Spry DALEC
 
 ## Overview
 
-This project uses [DALEC](https://github.com/project-dalec/dalec) to build cross-platform packages for the Spry SQLPage and Spry Runbook CLI tools. DALEC is a Docker Buildkit frontend that translates declarative YAML specifications into build instructions for multiple Linux distributions and Windows.
+This project uses [DALEC](https://github.com/project-dalec/dalec) to build cross-platform packages for the Spry CLI tool. DALEC is a Docker Buildkit frontend that translates declarative YAML specifications into build instructions for multiple Linux distributions and Windows.
 
 ## Project Structure
 
-```
+```text
 packages/
 ├── .github/
 │   └── workflows/
@@ -17,8 +17,7 @@ packages/
 ├── scripts/
 │   └── release.sh             # Release automation script
 ├── dalec-spry-sqlpage.yaml    # DALEC specification file
-├── spry_sqlpage.ts            # Spry SQLPage TypeScript file
-├── spry_runbook.ts            # Spry Runbook TypeScript file
+├── spry.ts                    # Spry TypeScript file
 ├── import_map.json            # Deno import map
 ├── Makefile                   # Build automation
 ├── docker-compose.yml         # Docker Compose for local builds
@@ -39,11 +38,11 @@ The `dalec-spry-sqlpage.yaml` file defines:
 - **Sources**:
   - Deno binary (downloaded from GitHub releases)
   - Import map (from Spry repository)
-  - TypeScript files (spry_sqlpage.ts, spry_runbook.ts)
+  - TypeScript file (spry.ts)
 - **Build steps**:
   - Extract Deno
-  - Compile TypeScript to standalone binaries
-  - Package the binaries
+  - Compile TypeScript to standalone binary
+  - Package the binary
 - **Targets**: Ubuntu, Debian, Windows
 
 ### 2. Build Targets
@@ -84,10 +83,9 @@ The CI/CD pipeline consists of:
 
 ### Package Structure
 
-The compiled binaries are installed to `/usr/local/bin/` and include:
+The compiled binary is installed to `/usr/local/bin/` and includes:
 
-- **spry-sqlpage**: Spry SQLPage CLI with Deno runtime and dependencies
-- **spry-runbook**: Spry Runbook CLI with Deno runtime and dependencies
+- **spry**: Spry CLI with Deno runtime and dependencies
 
 ## Build Flow
 

@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project provides cross-platform packaging for **Spry SQLPage** and **Spry Runbook** using **DALEC** (Declarative Application Lifecycle Engine for Containers). Spry SQLPage is a declarative web application framework, and Spry Runbook is a runbook execution tool.
+This project provides cross-platform packaging for **Spry** using **DALEC** (Declarative Application Lifecycle Engine for Containers). Spry is a declarative web application framework.
 
 ## What Has Been Created
 
@@ -12,42 +12,39 @@ This project provides cross-platform packaging for **Spry SQLPage** and **Spry R
    - Defines package metadata, sources, build steps, and targets
    - Supports Ubuntu, Debian, and Windows
 
-2. **spry_sqlpage.ts** - Main TypeScript entry point for Spry SQLPage
-   - CLI interface for Spry SQLPage web application framework
+2. **spry.ts** - Main TypeScript entry point for Spry
+   - CLI interface for Spry web application framework
 
-3. **spry_runbook.ts** - Main TypeScript entry point for Spry Runbook
-   - CLI interface for Spry Runbook execution tool
-
-4. **import_map.json** - Deno import map
+3. **import_map.json** - Deno import map
    - Downloaded from Spry repository
    - Manages TypeScript dependencies
 
 ### Build Automation
 
-5. **Makefile** - Build automation commands
+4. **Makefile** - Build automation commands
    - `make build-all` - Build all packages
    - `make build-jammy`, `make build-bookworm` - Platform-specific builds
-   - `make compile-local` - Local Deno compilation (both tools)
+   - `make compile-local` - Local Deno compilation
    - `make build-windows` - Windows package builds
    - `make clean` - Clean build artifacts
 
-6. **docker-compose.yml** - Docker Compose configuration
+5. **docker-compose.yml** - Docker Compose configuration
    - Alternative build method using Docker Compose
    - Separate services for each platform
 
-7. **scripts/release.sh** - Release automation script
+6. **scripts/release.sh** - Release automation script
    - Updates version numbers
    - Creates git tags
    - Prepares releases
 
 ### CI/CD
 
-8. **.github/workflows/build.yml** - Main build workflow
-   - Builds packages for all platforms (spry-sqlpage and spry-runbook)
+7. **.github/workflows/build.yml** - Main build workflow
+   - Builds packages for all platforms (spry)
    - Creates GitHub releases on version tags
    - Uploads artifacts
 
-9. **.github/workflows/test.yml** - Testing workflow
+8. **.github/workflows/test.yml** - Testing workflow
    - Tests DEB packages
    - Tests local Deno compilation on multiple OS
    - Validates package contents
@@ -134,16 +131,19 @@ GitHub Releases
 ## Next Steps
 
 ### For Users
+
 1. Download packages from GitHub Releases
 2. Install using your package manager
-3. Run `spry-sqlpage --help` or `spry-runbook --help`
+3. Run `spry --help`
 
 ### For Developers
+
 1. Clone the repository
 2. Run `make build-all` to build packages
-3. Run `make compile-local` for local development (builds both tools)
+3. Run `make compile-local` for local development
 
 ### For Contributors
+
 1. Read CONTRIBUTING.md
 2. Fork the repository
 3. Submit pull requests
@@ -151,6 +151,7 @@ GitHub Releases
 ## Testing
 
 The project has been tested with:
+
 - ✅ Deno runtime execution
 - ✅ Local compilation
 - ⏳ DALEC package builds (requires Docker with BuildKit)
@@ -158,20 +159,19 @@ The project has been tested with:
 
 ## Resources
 
-- **Spry Project**: https://github.com/programmablemd/spry
-- **DALEC**: https://github.com/project-dalec/dalec
-- **Deno**: https://deno.land/
-- **Surveilr Packages** (reference): https://github.com/surveilr/packages
+- **Spry Project**: <https://github.com/programmablemd/spry>
+- **DALEC**: <https://github.com/project-dalec/dalec>
+- **Deno**: <https://deno.land/>
+- **Surveilr Packages** (reference): <https://github.com/surveilr/packages>
 
 ## Repository Structure
 
-```
+```text
 packages/
 ├── .github/workflows/     # CI/CD workflows
 ├── scripts/               # Automation scripts
 ├── dalec-spry-sqlpage.yaml # DALEC spec
-├── spry_sqlpage.ts        # Spry SQLPage TypeScript file
-├── spry_runbook.ts        # Spry Runbook TypeScript file
+├── spry.ts                # Spry TypeScript file
 ├── import_map.json        # Deno dependencies
 ├── Makefile               # Build automation
 ├── docker-compose.yml     # Docker Compose config

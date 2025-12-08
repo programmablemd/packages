@@ -137,7 +137,7 @@ Download and test a package for your platform:
 ### Ubuntu/Debian
 
 ```bash
-wget https://github.com/programmablemd/packages/releases/download/v0.100.6/spry-sqlpage_jammy.deb
+wget https://github.com/programmablemd/packages/releases/download/v0.100.7/spry-sqlpage_jammy.deb
 sudo dpkg -i spry-sqlpage_jammy.deb
 spry --help
 ```

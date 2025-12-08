@@ -2,7 +2,7 @@
 # DALEC config for packaging spry binary
 
 name: spry-sqlpage
-version: 0.100.7
+version: 0.100.6
 revision: 1
 packager: Spry Team
 vendor: Spry

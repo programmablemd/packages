@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Get started with Spry DALEC packages (spry-sqlpage and spry-runbook) in minutes!
+Get started with Spry DALEC packages in minutes!
 
 ## For Users
 
@@ -16,30 +16,30 @@ wget https://github.com/programmablemd/packages/releases/download/v0.90.0/spry-s
 sudo dpkg -i spry-sqlpage_0.90.0-ubuntu22.04u1_amd64.deb
 
 # Verify installation
-spry-sqlpage --version
+spry --version
 ```
 
 #### macOS
 
 ```bash
 # Download and extract
-wget https://github.com/programmablemd/packages/releases/download/v0.90.0/spry-sqlpage-macos.tar.gz
-tar -xzf spry-sqlpage-macos.tar.gz
+wget https://github.com/programmablemd/packages/releases/download/v0.90.0/spry-macos.tar.gz
+tar -xzf spry-macos.tar.gz
 
 # Move to PATH
-sudo cp spry-sqlpage-macos /usr/local/bin/spry-sqlpage
-chmod +x /usr/local/bin/spry-sqlpage
+sudo cp spry-macos /usr/local/bin/spry
+chmod +x /usr/local/bin/spry
 
 # Verify installation
-spry-sqlpage --version
+spry --version
 ```
 
 #### Windows
 
-1. Download `spry-sqlpage-windows.zip` from [releases](https://github.com/programmablemd/packages/releases/latest)
+1. Download `spry-windows.zip` from [releases](https://github.com/programmablemd/packages/releases/latest)
 2. Extract the ZIP file
 3. Add the extracted directory to your PATH
-4. Open a new terminal and run: `spry-sqlpage --version`
+4. Open a new terminal and run: `spry --version`
 
 ## For Developers
 
@@ -76,12 +76,11 @@ make build-jammy
 # Install Deno
 curl -fsSL https://deno.land/install.sh | sh
 
-# Compile locally (both spry-sqlpage and spry-runbook)
+# Compile locally
 make compile-local
 
-# Test the binaries
-./spry-sqlpage --help
-./spry-runbook --help
+# Test the binary
+./spry --help
 ```
 
 ### Quick Build Commands
@@ -100,31 +99,19 @@ make build-windows
 make clean
 ```
 
-## Using Spry Tools
+## Using Spry
 
-Once installed, you can use the Spry tools:
-
-### spry-sqlpage
+Once installed, you can use the Spry tool:
 
 ```bash
 # Get help
-spry-sqlpage --help
+spry --help
 
 # Run your Spry application
-spry-sqlpage serve
+spry serve
 ```
 
-### spry-runbook
-
-```bash
-# Get help
-spry-runbook --help
-
-# Run a runbook
-spry-runbook run <runbook-file>
-```
-
-For more information, visit: https://github.com/programmablemd/spry
+For more information, visit: <https://github.com/programmablemd/spry>
 
 ## Troubleshooting
 
@@ -145,7 +132,7 @@ sudo dpkg -i spry-sqlpage_jammy.deb
 
 ```bash
 # Check if binary exists
-which spry-sqlpage
+which spry
 
 # If not found, add to PATH
 export PATH=$PATH:/usr/local/bin

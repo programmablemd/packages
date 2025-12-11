@@ -54,6 +54,8 @@ jobs:
           curl -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
       - name: Compile spry binary
+        env:
+          DENO_AUTH_TOKENS: ${{ secrets.DENO_AUTH_TOKENS }}
         run: |
           deno compile \
             --allow-all \
@@ -121,6 +123,8 @@ jobs:
           curl -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
       - name: Compile spry binary for Windows
+        env:
+          DENO_AUTH_TOKENS: ${{ secrets.DENO_AUTH_TOKENS }}
         run: |
           deno compile \
             --allow-all \
@@ -162,6 +166,8 @@ jobs:
           curl -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
       - name: Compile spry for macOS
+        env:
+          DENO_AUTH_TOKENS: ${{ secrets.DENO_AUTH_TOKENS }}
         run: |
           deno compile \
             --allow-all \

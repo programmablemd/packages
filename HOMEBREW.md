@@ -48,21 +48,7 @@ To install a specific version of spry:
 brew install programmablemd/packages/spry@0.102.1
 ```
 
-### Option 2: Pin to prevent upgrades
-
-After installing a specific version, you can pin it to prevent automatic upgrades:
-
-```bash
-brew pin spry
-```
-
-To unpin and allow upgrades again:
-
-```bash
-brew unpin spry
-```
-
-### Option 3: Switch between installed versions
+### Option 2: Switch between installed versions
 
 If you have multiple versions installed:
 

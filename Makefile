@@ -92,10 +92,34 @@ install: ## Install spry locally (requires sudo)
 	@echo "Installing spry to /usr/local/bin..."
 	sudo cp spry /usr/local/bin/spry
 	sudo chmod +x /usr/local/bin/spry
+	@echo "Installing man page to /usr/local/share/man/man1..."
+	sudo mkdir -p /usr/local/share/man/man1
+	sudo cp man/spry.1 /usr/local/share/man/man1/spry.1
+	sudo chmod 644 /usr/local/share/man/man1/spry.1
+	-sudo mandb # Update man database, ignore error if mandb not present
 	@echo "Installation complete. Run 'spry --help' to verify."
 
 uninstall: ## Uninstall spry from system
 	@echo "Uninstalling spry..."
 	sudo rm -f /usr/local/bin/spry
+	sudo rm -f /usr/local/share/man/man1/spry.1
+	-sudo mandb
+	@echo "Uninstall complete."
+
+install-local: compile-local ## Install spry locally to ~/.local (no sudo required)
+	@echo "Installing spry to $(HOME)/.local/bin..."
+	@mkdir -p $(HOME)/.local/bin
+	@cp spry $(HOME)/.local/bin/spry
+	@chmod +x $(HOME)/.local/bin/spry
+	@echo "Installing man page to $(HOME)/.local/share/man/man1..."
+	@mkdir -p $(HOME)/.local/share/man/man1
+	@cp man/spry.1 $(HOME)/.local/share/man/man1/spry.1
+	@chmod 644 $(HOME)/.local/share/man/man1/spry.1
+	@echo "Installation complete. Ensure $(HOME)/.local/bin is in your PATH."
+
+uninstall-local: ## Uninstall spry from ~/.local
+	@echo "Uninstalling spry from $(HOME)/.local..."
+	rm -f $(HOME)/.local/bin/spry
+	rm -f $(HOME)/.local/share/man/man1/spry.1
 	@echo "Uninstall complete."
 

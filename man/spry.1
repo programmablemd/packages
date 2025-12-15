@@ -1,0 +1,66 @@
+.TH SPRY 1 "December 2025" "v0.106.0" "User Commands"
+.SH NAME
+spry \- SQLPage Markdown Notebook tool: emit SQL package, write sqlpage.json, or materialize filesystem
+.SH SYNOPSIS
+.B spry
+[\fIOPTIONS\fR] [\fICOMMAND\fR]
+.SH DESCRIPTION
+.B spry
+is a tool responsible for managing SQLPage Markdown Notebooks. It allows you to:
+.IP \[bu] 2
+Emit SQL packages.
+.IP \[bu]
+Write `sqlpage.json` configuration.
+.IP \[bu]
+Materialize the filesystem based on definitions in `Spryfile.md`.
+.PP
+It is designed to streamline the development and deployment of SQLPage applications using a declarative markdown approach.
+.SH OPTIONS
+.TP
+.BR \-h ", " \-\-help
+Show the help message and exit.
+.TP
+.BR \-V ", " \-\-version
+Show the version number of the program and exit.
+.SH COMMANDS
+.TP
+.B init
+Initialize the environment. Sets up `Spryfile.md` and `spry.ts` for a local development environment.
+.TP
+.B doctor
+Check dependencies. Shows a list of required and optional dependencies and their availability status.
+.TP
+.B spc
+SQLPage Content (spc) CLI. Use this command to manage content related to SQLPage.
+.TP
+.B task \fItaskId\fR
+Execute a specific task. Use `spry task <taskId>` to execute a specific cell effectively running the task and its dependencies.
+.TP
+.B runbook
+Runbook CLI. Executes all cells in the notebooks in DAG (Directed Acyclic Graph) order, ensuring proper dependency resolution.
+.TP
+.B completions
+Generate shell completions for your shell environment.
+.TP
+.B help \fI[command]\fR
+Show this help message or the help for a specific sub-command.
+.SH EXAMPLES
+.B Initialize a new project:
+.PP
+.RS
+$ spry init
+.RE
+.PP
+.B Run a specific task:
+.PP
+.RS
+$ spry task my-task-id
+.RE
+.PP
+.B Check system dependencies:
+.PP
+.RS
+$ spry doctor
+.RE
+.SH SEE ALSO
+.BR sqlpage (1)

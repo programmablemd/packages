@@ -43,6 +43,13 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version: $VERSION"
 
+      - name: Update man page version and date
+        run: |
+          VERSION="${{ steps.get-version.outputs.version }}"
+          CURRENT_DATE=$(date "+%B %Y")
+          echo "Updating man/spry.1 to v$VERSION ($CURRENT_DATE)"
+          sed -i "s/^\.TH SPRY 1 \".*\" \".*\" \"User Commands\"/.TH SPRY 1 \"$CURRENT_DATE\" \"v$VERSION\" \"User Commands\"/" man/spry.1
+
       - name: Install Deno
         uses: denoland/setup-deno@v2
         with:

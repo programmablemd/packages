@@ -72,6 +72,8 @@ jobs:
           curl -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
       - name: Compile spry
+        env:
+          DENO_AUTH_TOKENS: ${{ secrets.DENO_AUTH_TOKENS }}
         run: |
           deno compile \
             --allow-all \

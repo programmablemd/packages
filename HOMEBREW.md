@@ -38,6 +38,24 @@ brew update
 brew upgrade spry
 ```
 
+## Install Specific Version
+
+To install a specific version of spry:
+
+### Option 1: Using version suffix
+
+```bash
+brew install programmablemd/packages/spry@0.102.1
+```
+
+### Option 2: Switch between installed versions
+
+If you have multiple versions installed:
+
+```bash
+brew unlink spry@0.102.1 && brew link spry@0.101.3
+```
+
 ### Uninstalling
 
 To remove the tool:
@@ -89,4 +107,3 @@ If you encounter issues:
 ## Manual Installation
 
 If you prefer not to use Homebrew, you can download the binaries directly from the [releases page](https://github.com/programmablemd/packages/releases).
-

@@ -68,8 +68,9 @@ compile-local: download-deps ## Compile spry locally with Deno
 
 prepare-src: compile-local ## Prepare src directory for DALEC
 	@echo "Preparing src directory for DALEC..."
-	@mkdir -p src/src
+	@mkdir -p src/src/man
 	@cp spry src/src/spry
+	@cp man/spry.1 src/src/man/spry.1
 	@chmod +x src/src/spry
 	@echo "✅ Binary prepared in src/src/ directory"
 

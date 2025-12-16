@@ -35,8 +35,7 @@ build:
         chmod +x spry
 
         # Handle man page
-        mkdir -p ./man/man1
-        cp src/src/src/man/spry.1 ./man/man1/spry.1
+        cp src/src/src/man/spry.1 ./spry.1
 
         # Verify the binary works before packaging
         file ./spry
@@ -45,8 +44,8 @@ build:
 artifacts:
   binaries:
     spry:
-  man:
-    "spry.1": man/man1/spry.1
+  manpages:
+    spry.1:
 
 tests:
   - name: Check spry binary exists
@@ -58,13 +57,12 @@ tests:
       - command: test -x /usr/bin/spry
 
 targets:
-  jammy:          # Ubuntu 22.04 DEB
+  jammy: # Ubuntu 22.04 DEB
     dependencies:
       runtime:
         ca-certificates:
-  bookworm:       # Debian 12 DEB
+  bookworm: # Debian 12 DEB
     dependencies:
       runtime:
         ca-certificates:
-  windowscross:   # Windows cross-compilation
-
+  windowscross: # Windows cross-compilation

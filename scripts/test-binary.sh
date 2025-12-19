@@ -76,7 +76,7 @@ test_rb_ls() {
     echo -n "Test 6: spry rb ls test_files/runbook-01.md... "
     
     # Store expected output (ignoring potential trailing spaces)
-    cat > expected_ls.txt << 'EOF'
+    cat << 'EOF' | sed -E 's/[[:space:]]+/ /g; s/^ //; s/ $//' > expected_ls.txt
 Name    DEPS    GRAPH    Args        DESCR                 ORIGIN            ENGINE                
 ------  ------  -------  ----------  --------------------  ----------------  ----------------------
 task-1                               A demo task           runbook-01.md:1   1 Deno task           
@@ -88,9 +88,6 @@ EOF
 
     # Get actual output, strip ANSI colors, compress whitespace
     $BINARY rb ls test_files/runbook-01.md 2>&1 | sed -E 's/\x1b\[[0-9;]*m//g; s/[[:space:]]+/ /g; s/^ //; s/ $//' > actual_ls.txt
-    
-    # Normalize expected too
-    sed -E -i 's/[[:space:]]+/ /g; s/^ //; s/ $//' expected_ls.txt
 
     if diff -q expected_ls.txt actual_ls.txt > /dev/null; then
         echo "✅ PASS"

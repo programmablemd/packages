@@ -29,14 +29,14 @@ build-bookworm: compile-local prepare-src ## Build DEB package for Debian Bookwo
 download-deps: ## Download import_map.json and deno.jsonc from Spry repository
 	@if [ ! -f import_map.json ]; then \
 		echo "Downloading import_map.json..."; \
-		curl -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json; \
+		curl -H "Authorization: Bearer $${GH_TOKEN}" -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json; \
 		echo "✅ import_map.json downloaded"; \
 	else \
 		echo "✅ import_map.json already exists"; \
 	fi
 	@if [ ! -f deno.jsonc ]; then \
 		echo "Downloading deno.jsonc..."; \
-		curl -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc; \
+		curl -H "Authorization: Bearer $${GH_TOKEN}" -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc; \
 		echo "✅ deno.jsonc downloaded"; \
 	else \
 		echo "✅ deno.jsonc already exists"; \

@@ -8,7 +8,8 @@ Thank you for your interest in contributing to the Spry DALEC packaging project!
 
 If you encounter any issues with the packages:
 
-1. Check if the issue already exists in the [Issues](https://github.com/programmablemd/packages/issues) section
+1. Check if the issue already exists in the
+   [Issues](https://github.com/programmablemd/packages/issues) section
 2. If not, create a new issue with:
    - A clear title and description
    - Steps to reproduce the problem
@@ -46,6 +47,23 @@ If you encounter any issues with the packages:
 - Docker Buildx
 - Make (optional, for convenience)
 - Deno (for local testing)
+
+#### Environment Variables
+
+This project requires authentication to download dependencies and compile the
+binary from the Spry repository. You must set the following environment
+variables:
+
+```bash
+# GitHub Personal Access Token (Classic or Fine-grained)
+export GH_TOKEN="your_github_token"
+
+# Auth token for Deno to fetch private raw modules
+export DENO_AUTH_TOKENS="${GH_TOKEN}@raw.githubusercontent.com"
+```
+
+The tokens are required by `make test`, `make build-all`, and
+`make download-deps`.
 
 #### Building Locally
 
@@ -92,11 +110,12 @@ make uninstall
 ## Questions?
 
 If you have questions, feel free to:
+
 - Open an issue for discussion
 - Check the [DALEC documentation](https://project-dalec.github.io/dalec/)
 - Review the [Spry project](https://github.com/programmablemd/spry)
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
-
+By contributing, you agree that your contributions will be licensed under the
+MIT License.

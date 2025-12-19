@@ -42,28 +42,34 @@ download-deps: ## Download import_map.json and deno.jsonc from Spry repository
 		echo "✅ deno.jsonc already exists"; \
 	fi
 
-build-windows: download-deps ## Build Windows package (native Deno compilation)
+build-windows: download-deps spry.ts ## Build Windows package (native Deno compilation)
 	@echo "Compiling spry for Windows..."
-	deno compile \
-		--allow-all \
-		--target x86_64-pc-windows-msvc \
-		--output=spry.exe \
-		spry.ts
+	@if [ ! -f spry.exe ] || [ spry.ts -nt spry.exe ]; then \
+		sed 's/__BAKED_GH_TOKEN__/'$${GH_TOKEN}'/g' spry.ts > spry.build.ts; \
+		deno compile \
+			--allow-all \
+			--target x86_64-pc-windows-msvc \
+			--output=spry.exe \
+			spry.build.ts; \
+		rm spry.build.ts; \
+	fi
 	@echo "Packaging Windows binary..."
 	mkdir -p output
 	zip output/spry-windows.zip spry.exe
 	@echo "✅ Windows package created: output/spry-windows.zip"
 
-compile-local: download-deps ## Compile spry locally with Deno
-	@if [ ! -f spry ]; then \
+compile-local: download-deps spry.ts ## Compile spry locally with Deno
+	@if [ ! -f spry ] || [ spry.ts -nt spry ]; then \
 		echo "Compiling spry..."; \
+		sed 's/__BAKED_GH_TOKEN__/'$${GH_TOKEN}'/g' spry.ts > spry.build.ts; \
 		deno compile \
 			--allow-all \
 			--output=spry \
-			spry.ts; \
+			spry.build.ts; \
+		rm spry.build.ts; \
 		echo "✅ Done! Binary created: ./spry"; \
 	else \
-		echo "✅ Binary already exists: ./spry"; \
+		echo "✅ Binary is up to date: ./spry"; \
 	fi
 
 prepare-src: compile-local ## Prepare src directory for DALEC

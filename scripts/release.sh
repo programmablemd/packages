@@ -25,9 +25,10 @@ echo "Updating version in dalec-spry.yaml..."
 sed -i.bak "s/^version: .*/version: $VERSION/" dalec-spry.yaml
 rm -f dalec-spry.yaml.bak
 
-# Update version in spry.ts (update the import tag version)
+# Update version in spry.ts (update both the constant and the import URL)
 echo "Updating version in spry.ts..."
-sed -i.bak -E "s|/refs/tags/v[0-9]+\.[0-9]+\.[0-9]+/|/refs/tags/v$VERSION/|g" spry.ts
+sed -i.bak -E "s|const VERSION = \"[0-9.]+\"|const VERSION = \"$VERSION\"|g" spry.ts
+sed -i.bak -E "s|spry_private/v[0-9.]+/|spry_private/v$VERSION/|g" spry.ts
 rm -f spry.ts.bak
 
 # Update version in README.md (replace any version pattern in download URLs)

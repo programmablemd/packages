@@ -315,3 +315,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Update Homebrew formulas
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          VERSION=${{ github.ref_name }}
+          VERSION_NUM=${VERSION#v}
+          echo "Updating Homebrew formula to version $VERSION_NUM"
+          
+          git clone https://x-access-token:${GH_TOKEN}@github.com/sijucj/spry_homebrew-packages.git homebrew-repo
+          cd homebrew-repo
+          
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          chmod +x update-spry-formulas.sh
+          ./update-spry-formulas.sh $VERSION_NUM
+

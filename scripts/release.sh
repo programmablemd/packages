@@ -71,23 +71,10 @@ git push origin main
 # Create and push tag
 echo "Creating tag v$VERSION..."
 git tag -a "v$VERSION" -m "Release version $VERSION"
-
-echo ""
-echo "Release v$VERSION prepared!"
-echo ""
-# echo "To complete the release, run:"
-# echo "  git push origin main"
-# echo "  git push origin v$VERSION"
-# echo ""
-# echo "This will trigger the GitHub Actions workflow to build and publish packages."
-
-# =======================================================
-# GIT COMMIT & PUSH
-# =======================================================
-echo "📦 Committing changes to git..."
-
-# git add .
-git commit -m "Bump Spry formula to ${VERSION}"
 git push origin "v$VERSION"
 
-echo "🎉 All done! Spry new version updated, committed, and pushed!"
+echo ""
+echo "Release v$VERSION prepared and pushed!"
+echo ""
+echo "This will trigger the GitHub Actions workflow to build and publish packages,"
+echo "and then automatically update the Homebrew formulas."

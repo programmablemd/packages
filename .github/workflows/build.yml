@@ -65,10 +65,17 @@ jobs:
         run: |
           deno compile \
             --allow-all \
+            --include web-ui \
             --output=spry \
             spry.ts
 
           echo "✅ spry binary compiled."
+
+      - name: Run binary tests
+        run: |
+          chmod +x scripts/test-binary.sh
+          scripts/test-binary.sh ./spry
+          echo "✅ All binary tests passed!"
 
       - name: Prepare binary for DALEC
         run: |
@@ -141,11 +148,23 @@ jobs:
         run: |
           deno compile \
             --allow-all \
+            --include web-ui \
             --target x86_64-pc-windows-msvc \
             --output=spry.exe \
             spry.ts
 
           echo "✅ spry.exe binary compiled for Windows."
+
+      - name: Verify Windows binary
+        run: |
+          if [ -f "spry.exe" ]; then
+            echo "✅ Windows binary created successfully"
+            ls -lh spry.exe
+            file spry.exe
+          else
+            echo "❌ Windows binary not found"
+            exit 1
+          fi
 
       - name: Package Windows binary
         run: |
@@ -190,10 +209,17 @@ jobs:
         run: |
           deno compile \
             --allow-all \
+            --include web-ui \
             --output=spry-macos \
             spry.ts
 
           echo "✅ spry macOS binary compiled."
+
+      - name: Run binary tests
+        run: |
+          chmod +x scripts/test-binary.sh
+          scripts/test-binary.sh ./spry-macos
+          echo "✅ All macOS binary tests passed!"
 
       - name: Create macOS archive
         run: |

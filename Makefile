@@ -1,4 +1,4 @@
-.PHONY: help build-all build-deb build-windows clean test download-import-map
+.PHONY: help build-all build-deb build-windows clean test download-import-map compile-and-test
 
 help: ## Show this help message
 	@echo 'Usage: make [target]'
@@ -6,7 +6,7 @@ help: ## Show this help message
 	@echo 'Available targets:'
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-build-all: compile-local build-deb build-windows ## Build packages for all platforms
+build-all: compile-and-test build-deb build-windows ## Build and test, then create packages
 
 build-deb: build-jammy build-bookworm ## Build all DEB packages
 
@@ -29,41 +29,49 @@ build-bookworm: compile-local prepare-src ## Build DEB package for Debian Bookwo
 download-deps: ## Download import_map.json and deno.jsonc from Spry repository
 	@if [ ! -f import_map.json ]; then \
 		echo "Downloading import_map.json..."; \
-		curl -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json; \
+		curl -H "Authorization: Bearer $${GH_TOKEN}" -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json; \
 		echo "✅ import_map.json downloaded"; \
 	else \
 		echo "✅ import_map.json already exists"; \
 	fi
 	@if [ ! -f deno.jsonc ]; then \
 		echo "Downloading deno.jsonc..."; \
-		curl -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc; \
+		curl -H "Authorization: Bearer $${GH_TOKEN}" -o deno.jsonc https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc; \
 		echo "✅ deno.jsonc downloaded"; \
 	else \
 		echo "✅ deno.jsonc already exists"; \
 	fi
 
-build-windows: download-deps ## Build Windows package (native Deno compilation)
+build-windows: download-deps spry.ts ## Build Windows package (native Deno compilation)
 	@echo "Compiling spry for Windows..."
-	deno compile \
-		--allow-all \
-		--target x86_64-pc-windows-msvc \
-		--output=spry.exe \
-		spry.ts
+	@if [ ! -f spry.exe ] || [ spry.ts -nt spry.exe ]; then \
+		sed 's/__BAKED_GH_TOKEN__/'$${GH_TOKEN}'/g' spry.ts > spry.build.ts; \
+		deno compile \
+			--allow-all \
+			--include web-ui \
+			--target x86_64-pc-windows-msvc \
+			--output=spry.exe \
+			spry.build.ts; \
+		rm spry.build.ts; \
+	fi
 	@echo "Packaging Windows binary..."
 	mkdir -p output
 	zip output/spry-windows.zip spry.exe
 	@echo "✅ Windows package created: output/spry-windows.zip"
 
-compile-local: download-deps ## Compile spry locally with Deno
-	@if [ ! -f spry ]; then \
+compile-local: download-deps spry.ts ## Compile spry locally with Deno
+	@if [ ! -f spry ] || [ spry.ts -nt spry ]; then \
 		echo "Compiling spry..."; \
+		sed 's/__BAKED_GH_TOKEN__/'$${GH_TOKEN}'/g' spry.ts > spry.build.ts; \
 		deno compile \
 			--allow-all \
+			--include web-ui \
 			--output=spry \
-			spry.ts; \
+			spry.build.ts; \
+		rm spry.build.ts; \
 		echo "✅ Done! Binary created: ./spry"; \
 	else \
-		echo "✅ Binary already exists: ./spry"; \
+		echo "✅ Binary is up to date: ./spry"; \
 	fi
 
 prepare-src: compile-local ## Prepare src directory for DALEC
@@ -74,9 +82,13 @@ prepare-src: compile-local ## Prepare src directory for DALEC
 	@chmod +x src/src/spry
 	@echo "✅ Binary prepared in src/src/ directory"
 
-test: ## Test the compiled binary
-	@echo "Testing spry binary..."
-	./spry --help || echo "Binary not found. Run 'make compile-local' first."
+test: compile-local ## Test the compiled binary with comprehensive tests
+	@echo "Running binary validation tests..."
+	@chmod +x scripts/test-binary.sh
+	@scripts/test-binary.sh ./spry
+
+compile-and-test: compile-local test ## Compile and run tests
+	@echo "✅ Build and test complete!"
 
 clean: ## Clean build artifacts
 	@echo "Cleaning build artifacts..."

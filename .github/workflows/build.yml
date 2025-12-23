@@ -323,7 +323,7 @@ jobs:
           VERSION_NUM=${VERSION#v}
           echo "Updating Homebrew formula to version $VERSION_NUM"
           
-          git clone https://x-access-token:${GH_TOKEN}@github.com/programmablemd/homebrew-packages.git homebrew-repo
+          git clone https://x-access-token:${GH_TOKEN}@github.com/sijucj/spry_homebrew-packages.git homebrew-repo
           cd homebrew-repo
           
           # Configure git

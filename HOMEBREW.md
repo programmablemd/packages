@@ -34,7 +34,6 @@ spry --version
 To update to the latest version:
 
 ```bash
-brew update
 brew upgrade spry
 ```
 
@@ -103,7 +102,3 @@ If you encounter issues:
    ```bash
    brew info spry
    ```
-
-## Manual Installation
-
-If you prefer not to use Homebrew, you can download the binaries directly from the [releases page](https://github.com/programmablemd/packages/releases).

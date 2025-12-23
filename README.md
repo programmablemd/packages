@@ -80,45 +80,6 @@ spry --version
 spry --help
 ```
 
-## Building from Source
-
-### Prerequisites
-
-- Docker with BuildKit support
-- Docker Buildx
-
-### Build Commands
-
-```bash
-# Build DEB package for Ubuntu Jammy
-docker buildx build \
-  --target jammy \
-  --output type=local,dest=./output \
-  -f dalec-spry.yaml \
-  .
-
-# Build Windows package (cross-compilation)
-docker buildx build \
-  --target windowscross \
-  --output type=local,dest=./output \
-  -f dalec-spry.yaml \
-  .
-```
-
-### Manual Compilation with Deno
-
-```bash
-# Download import_map.json
-curl -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
-
-# Compile spry
-deno compile \
-  --allow-all \
-  --import-map=import_map.json \
-  --output=spry \
-  spry.ts
-```
-
 ## Supported Platforms
 
 - ✅ Ubuntu 22.04 (Jammy)

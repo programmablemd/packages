@@ -34,12 +34,12 @@ For additional Homebrew installation options, including installing specific vers
 
 ```bash
 # Ubuntu 22.04 (Jammy)
-wget https://github.com/programmablemd/packages/releases/download/v1.0.1/spry_1.0.1-ubuntu22.04u1_amd64.deb
-sudo dpkg -i spry_1.0.1-ubuntu22.04u1_amd64.deb
+wget https://github.com/programmablemd/packages/releases/download/v1.0.2/spry_1.0.2-ubuntu22.04u1_amd64.deb
+sudo dpkg -i spry_1.0.2-ubuntu22.04u1_amd64.deb
 
 # Debian 12 (Bookworm)
-wget https://github.com/programmablemd/packages/releases/download/v1.0.1/spry_1.0.1-debian12u1_amd64.deb
-sudo dpkg -i spry_1.0.1-debian12u1_amd64.deb
+wget https://github.com/programmablemd/packages/releases/download/v1.0.2/spry_1.0.2-debian12u1_amd64.deb
+sudo dpkg -i spry_1.0.2-debian12u1_amd64.deb
 ```
 
 #### macOS (Manual Installation)
@@ -48,7 +48,7 @@ If you prefer not to use Homebrew:
 
 ```bash
 # Download and extract
-wget https://github.com/programmablemd/packages/releases/download/v1.0.1/spry-macos.tar.gz
+wget https://github.com/programmablemd/packages/releases/download/v1.0.2/spry-macos.tar.gz
 tar -xzf spry-macos.tar.gz
 sudo mv spry-macos /usr/local/bin/spry
 ```
@@ -57,7 +57,7 @@ sudo mv spry-macos /usr/local/bin/spry
 
 ```powershell
 # Download the Windows package
-# https://github.com/programmablemd/packages/releases/download/v1.0.1/spry-windows.zip
+# https://github.com/programmablemd/packages/releases/download/v1.0.2/spry-windows.zip
 
 # Extract the zip file and run:
 .\spry.exe --help

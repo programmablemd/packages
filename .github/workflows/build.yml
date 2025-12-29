@@ -66,6 +66,7 @@ jobs:
           deno compile \
             --allow-all \
             --include web-ui \
+            --import-map=import_map.json \
             --output=spry \
             spry.ts
 
@@ -150,6 +151,7 @@ jobs:
             --allow-all \
             --include web-ui \
             --target x86_64-pc-windows-msvc \
+            --import-map=import_map.json \
             --output=spry.exe \
             spry.ts
 
@@ -210,6 +212,7 @@ jobs:
           deno compile \
             --allow-all \
             --include web-ui \
+            --import-map=import_map.json \
             --output=spry-macos \
             spry.ts
 

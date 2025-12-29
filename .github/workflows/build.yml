@@ -48,16 +48,16 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Download import_map.json and deno.jsonc
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: |
-          curl -H "Authorization: Bearer $GH_TOKEN" \
-            -o import_map.json \
-            https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
-          curl -H "Authorization: Bearer $GH_TOKEN" \
-            -o deno.jsonc \
-            https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
+      # - name: Download import_map.json and deno.jsonc
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GH_PAT }}
+      #   run: |
+      #     curl -H "Authorization: Bearer $GH_TOKEN" \
+      #       -o import_map.json \
+      #       https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
+      #     curl -H "Authorization: Bearer $GH_TOKEN" \
+      #       -o deno.jsonc \
+      #       https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
       - name: Compile spry binary
         env:
@@ -132,16 +132,16 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Download import_map.json and deno.jsonc
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: |
-          curl -H "Authorization: Bearer $GH_TOKEN" \
-            -o import_map.json \
-            https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
-          curl -H "Authorization: Bearer $GH_TOKEN" \
-            -o deno.jsonc \
-            https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
+      # - name: Download import_map.json and deno.jsonc
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GH_PAT }}
+      #   run: |
+      #     curl -H "Authorization: Bearer $GH_TOKEN" \
+      #       -o import_map.json \
+      #       https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
+      #     curl -H "Authorization: Bearer $GH_TOKEN" \
+      #       -o deno.jsonc \
+      #       https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
       - name: Compile spry binary for Windows
         env:
@@ -194,16 +194,16 @@ jobs:
         with:
           deno-version: v2.x
 
-      - name: Download import_map.json and deno.jsonc
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-        run: |
-          curl -H "Authorization: Bearer $GH_TOKEN" \
-            -o import_map.json \
-            https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
-          curl -H "Authorization: Bearer $GH_TOKEN" \
-            -o deno.jsonc \
-            https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
+      # - name: Download import_map.json and deno.jsonc
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GH_PAT }}
+      #   run: |
+      #     curl -H "Authorization: Bearer $GH_TOKEN" \
+      #       -o import_map.json \
+      #       https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
+      #     curl -H "Authorization: Bearer $GH_TOKEN" \
+      #       -o deno.jsonc \
+      #       https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/deno.jsonc
 
       - name: Compile spry for macOS
         env:

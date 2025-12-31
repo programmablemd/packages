@@ -28,18 +28,18 @@ brew tap programmablemd/homebrew-packages
 brew install spry
 ```
 
-See [HOMEBREW.md](HOMEBREW.md) for more details.
+For additional Homebrew installation options, including installing specific versions and upgrading, please refer to [HOMEBREW.md](HOMEBREW.md).
 
 #### Ubuntu/Debian (.deb packages)
 
 ```bash
 # Ubuntu 22.04 (Jammy)
-wget https://github.com/programmablemd/packages/releases/download/v0.111.0/spry_0.111.0-ubuntu22.04u1_amd64.deb
-sudo dpkg -i spry_0.111.0-ubuntu22.04u1_amd64.deb
+wget https://github.com/programmablemd/packages/releases/download/v1.0.2/spry_1.0.2-ubuntu22.04u1_amd64.deb
+sudo dpkg -i spry_1.0.2-ubuntu22.04u1_amd64.deb
 
 # Debian 12 (Bookworm)
-wget https://github.com/programmablemd/packages/releases/download/v0.111.0/spry_0.111.0-debian12u1_amd64.deb
-sudo dpkg -i spry_0.111.0-debian12u1_amd64.deb
+wget https://github.com/programmablemd/packages/releases/download/v1.0.2/spry_1.0.2-debian12u1_amd64.deb
+sudo dpkg -i spry_1.0.2-debian12u1_amd64.deb
 ```
 
 #### macOS (Manual Installation)
@@ -48,7 +48,7 @@ If you prefer not to use Homebrew:
 
 ```bash
 # Download and extract
-wget https://github.com/programmablemd/packages/releases/download/v0.111.0/spry-macos.tar.gz
+wget https://github.com/programmablemd/packages/releases/download/v1.0.2/spry-macos.tar.gz
 tar -xzf spry-macos.tar.gz
 sudo mv spry-macos /usr/local/bin/spry
 ```
@@ -57,7 +57,7 @@ sudo mv spry-macos /usr/local/bin/spry
 
 ```powershell
 # Download the Windows package
-# https://github.com/programmablemd/packages/releases/download/v0.111.0/spry-windows.zip
+# https://github.com/programmablemd/packages/releases/download/v1.0.2/spry-windows.zip
 
 # Extract the zip file and run:
 .\spry.exe --help
@@ -78,45 +78,6 @@ After installation, verify that `spry` is working correctly:
 ```bash
 spry --version
 spry --help
-```
-
-## Building from Source
-
-### Prerequisites
-
-- Docker with BuildKit support
-- Docker Buildx
-
-### Build Commands
-
-```bash
-# Build DEB package for Ubuntu Jammy
-docker buildx build \
-  --target jammy \
-  --output type=local,dest=./output \
-  -f dalec-spry.yaml \
-  .
-
-# Build Windows package (cross-compilation)
-docker buildx build \
-  --target windowscross \
-  --output type=local,dest=./output \
-  -f dalec-spry.yaml \
-  .
-```
-
-### Manual Compilation with Deno
-
-```bash
-# Download import_map.json
-curl -o import_map.json https://raw.githubusercontent.com/programmablemd/spry/refs/heads/main/import_map.json
-
-# Compile spry
-deno compile \
-  --allow-all \
-  --import-map=import_map.json \
-  --output=spry \
-  spry.ts
 ```
 
 ## Supported Platforms

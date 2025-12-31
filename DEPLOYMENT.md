@@ -137,7 +137,7 @@ Download and test a package for your platform:
 ### Ubuntu/Debian
 
 ```bash
-wget https://github.com/programmablemd/packages/releases/download/v1.0.0/spry_jammy.deb
+wget https://github.com/programmablemd/packages/releases/download/v1.0.2/spry_jammy.deb
 sudo dpkg -i spry_jammy.deb
 spry --help
 ```

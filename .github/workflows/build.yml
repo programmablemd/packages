@@ -268,9 +268,44 @@ jobs:
           find artifacts -name "*.tar.gz" -exec cp {} release/ \;
           # Copy Windows archive
           find artifacts -name "*.zip" -exec cp {} release/ \;
-          # List all files
+
+          # Create generic names for "latest" links as requested
+          # For Ubuntu 22.04 (Jammy)
+          cp release/spry_*ubuntu22.04u1_amd64.deb release/spry-ubuntu22.04u1_amd64.deb || true
+          # For Debian 12 (Bookworm)
+          cp release/spry_*debian12u1_amd64.deb release/spry-debian12u1_amd64.deb || true
+          
+          # macOS and Windows already have generic names, but let's ensure we have them ready
+          # spry-macos.tar.gz and spry-windows.zip are already in release/
+
+          # List all files for verification
           echo "📦 Release files:"
-          ls -lh release/
+          ls -R release/
+
+      - name: Update latest tag
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag -f latest ${{ github.sha }}
+          git push -f origin latest
+
+      - name: Update Latest Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: latest
+          files: |
+            release/spry-ubuntu22.04u1_amd64.deb
+            release/spry-debian12u1_amd64.deb
+            release/spry-macos.tar.gz
+            release/spry-windows.zip
+          draft: false
+          prerelease: false
+          name: "Latest Release"
+          body: |
+            This release always contains the latest stable version of Spry.
+            Current version: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -281,7 +316,35 @@ jobs:
           body: |
             ## Spry ${{ github.ref_name }}
 
-            ### 📦 Package Managers (Recommended)
+            ### � Latest Stable Version (Recommended)
+            You can always download the latest version using these stable links:
+
+            #### Ubuntu 22.04 (Jammy)
+            ```bash
+            wget https://github.com/${{ github.repository }}/releases/download/latest/spry-ubuntu22.04u1_amd64.deb
+            sudo dpkg -i spry-ubuntu22.04u1_amd64.deb
+            ```
+
+            #### Debian 12 (Bookworm)
+            ```bash
+            wget https://github.com/${{ github.repository }}/releases/download/latest/spry-debian12u1_amd64.deb
+            sudo dpkg -i spry-debian12u1_amd64.deb
+            ```
+
+            #### macOS
+            ```bash
+            wget https://github.com/${{ github.repository }}/releases/download/latest/spry-macos.tar.gz
+            tar -xzf spry-macos.tar.gz
+            sudo cp spry-macos /usr/local/bin/spry
+            chmod +x /usr/local/bin/spry
+            ```
+
+            #### Windows
+            Download [spry-windows.zip](https://github.com/${{ github.repository }}/releases/download/latest/spry-windows.zip) and extract it.
+
+            ---
+
+            ### 📦 Versioned Packages (${{ github.ref_name }})
 
             #### Ubuntu 22.04 (Jammy)
             ```bash
@@ -295,18 +358,14 @@ jobs:
             sudo dpkg -i spry_${{ needs.build-deb.outputs.version }}-debian12u1_amd64.deb
             ```
 
-            #### Windows
-            ```powershell
-            # Download and extract spry-windows.zip
-            # Run spry.exe from the extracted folder
-            ```
-
             #### macOS
             ```bash
             wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/spry-macos.tar.gz
-            tar -xzf spry-macos.tar.gz
-            sudo cp spry-macos /usr/local/bin/spry
-            chmod +x /usr/local/bin/spry
+            ```
+
+            #### Windows
+            ```powershell
+            # Download spry-windows.zip from this release
             ```
 
             ### 🔍 Verification

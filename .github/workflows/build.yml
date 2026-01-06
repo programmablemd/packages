@@ -366,6 +366,9 @@ jobs:
             #### macOS
             ```bash
             wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/spry-macos.tar.gz
+            tar -xzf spry-macos.tar.gz
+            sudo cp spry-macos /usr/local/bin/spry
+            chmod +x /usr/local/bin/spry
             ```
 
             #### Windows

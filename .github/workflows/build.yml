@@ -264,6 +264,39 @@ jobs:
           find ./artifacts -type f -name "*.deb" -o -name "*.tar.gz" -o -name "*.zip" | head -20
           ls -la ./artifacts/ || echo "No artifacts directory"
 
+
+      - name: Generate SCF Database
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |          
+          # Install surveilr and direnv
+          sudo apt-get install -y direnv
+          wget https://github.com/surveilr/packages/releases/latest/download/surveilr_jammy.deb
+          sudo dpkg -i surveilr_jammy.deb
+          surveilr --version
+
+          # Install Deno
+          curl -fsSL https://deno.land/install.sh | sh
+          export DENO_INSTALL="$HOME/.deno"
+          export PATH="$DENO_INSTALL/bin:$PATH"
+
+          # Clone spry repo for SCF assets
+          git clone --depth 1 https://${GH_TOKEN}@github.com/programmablemd/spry.git temp_spry_scf
+          cd temp_spry_scf/support/assurance/scf
+          direnv allow .
+          eval "$(direnv export bash)"
+
+          # Generate DB
+          ./spry.ts rb run Spryfile.md
+          
+          # Move to release directory
+          mkdir -p ../../../../release
+          cp scf-2025.3.sqlite.db ../../../../release/
+          
+          # Clean up
+          cd ../../../..
+          rm -rf temp_spry_scf
+
       - name: Organize release files
         run: |
           mkdir -p release
@@ -303,6 +336,7 @@ jobs:
             release/spry-debian12u1_amd64.deb
             release/spry-macos.tar.gz
             release/spry-windows.zip
+            release/scf-2025.3.sqlite.db
           draft: false
           prerelease: false
           name: "Latest Release"
@@ -347,6 +381,11 @@ jobs:
             #### Windows
             Download [spry-windows.zip](https://github.com/${{ github.repository }}/releases/download/latest/spry-windows.zip) and extract it.
 
+            #### SCF Database
+            ```bash
+            wget https://github.com/${{ github.repository }}/releases/download/latest/scf-2025.3.sqlite.db
+            ```
+
             ---
 
             ### 📦 Versioned Packages (${{ github.ref_name }})
@@ -366,11 +405,19 @@ jobs:
             #### macOS
             ```bash
             wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/spry-macos.tar.gz
+            tar -xzf spry-macos.tar.gz
+            sudo cp spry-macos /usr/local/bin/spry
+            chmod +x /usr/local/bin/spry
             ```
 
             #### Windows
             ```powershell
             # Download spry-windows.zip from this release
+            ```
+
+            #### SCF Database
+            ```bash
+            wget https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/scf-2025.3.sqlite.db
             ```
 
             ### 🔍 Verification

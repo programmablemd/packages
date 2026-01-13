@@ -34,4 +34,4 @@ jobs:
       - name: Publish JSR package
         run: |
           cd jsr_package/universal
-          npx jsr publish --allow-dirty
+          npx jsr publish --allow-dirty --allow-slow-types

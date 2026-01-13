@@ -35,5 +35,6 @@ Follow these steps to create and publish a new release using the provided releas
    After completing the release, run the following command in the Homebrew packages repository to update the Spry formula:
 
    ```bash
+    git pull origin main
    ./update-spry-formulas.sh 0.1.0
    ```

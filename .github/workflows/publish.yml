@@ -28,6 +28,7 @@ jobs:
       - name: Update jsr.json version from git tag
         run: |
           VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${VERSION#v}
           cd jsr_package/universal
           jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
 

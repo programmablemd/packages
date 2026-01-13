@@ -1,0 +1,38 @@
+name: Publish
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Checkout spry repo
+        uses: actions/checkout@v5
+        with:
+          repository: programmablemd/spry
+          token: ${{ secrets.GH_PAT }}
+          path: spry
+
+      - name: Copy lib/universal and lib/spawn to jsr_package/universal
+        run: |
+          rsync -a --exclude='README.md' spry/lib/universal/ jsr_package/universal/
+          rsync -a --exclude='README.md' spry/lib/spawn/ jsr_package/universal/
+
+      - name: Update jsr.json version from git tag
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${VERSION#v}
+          cd jsr_package/universal
+          jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+
+      - name: Publish JSR package
+        run: |
+          cd jsr_package/universal
+          npx jsr publish --allow-dirty --allow-slow-types

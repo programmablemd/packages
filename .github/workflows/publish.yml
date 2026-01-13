@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           repository: programmablemd/spry
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
           path: spry
 
       - name: Copy lib/universal and lib/spawn to jsr_package/universal

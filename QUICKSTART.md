@@ -10,10 +10,10 @@ Get started with Spry DALEC packages in minutes!
 
 ```bash
 # Download the latest release
-wget https://github.com/programmablemd/packages/releases/download/v1.5.1/spry_1.5.1-ubuntu22.04u1_amd64.deb
+wget https://github.com/programmablemd/packages/releases/download/v1.4.1/spry_1.4.1-ubuntu22.04u1_amd64.deb
 
 # Install
-sudo dpkg -i spry_1.5.1-ubuntu22.04u1_amd64.deb
+sudo dpkg -i spry_1.4.1-ubuntu22.04u1_amd64.deb
 
 # Verify installation
 spry --version
@@ -23,7 +23,7 @@ spry --version
 
 ```bash
 # Download and extract
-wget https://github.com/programmablemd/packages/releases/download/v1.5.1/spry-macos.tar.gz
+wget https://github.com/programmablemd/packages/releases/download/v1.4.1/spry-macos.tar.gz
 tar -xzf spry-macos.tar.gz
 
 # Move to PATH

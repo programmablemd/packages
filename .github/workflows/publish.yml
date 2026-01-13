@@ -1,8 +1,8 @@
 name: Publish
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "*"
 
 jobs:
   publish:
@@ -24,6 +24,12 @@ jobs:
         run: |
           cp -r spry/lib/universal/* jsr_package/universal/
           cp -r spry/lib/spawn/* jsr_package/universal/
+
+      - name: Update jsr.json version from git tag
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/}
+          cd jsr_package/universal
+          jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
 
       - name: Publish JSR package
         run: |

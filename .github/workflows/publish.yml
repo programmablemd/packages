@@ -22,8 +22,8 @@ jobs:
 
       - name: Copy lib/universal and lib/spawn to jsr_package/universal
         run: |
-          cp -r spry/lib/universal/* jsr_package/universal/
-          cp -r spry/lib/spawn/* jsr_package/universal/
+          rsync -a --exclude='README.md' spry/lib/universal/ jsr_package/universal/
+          rsync -a --exclude='README.md' spry/lib/spawn/ jsr_package/universal/
 
       - name: Update jsr.json version from git tag
         run: |

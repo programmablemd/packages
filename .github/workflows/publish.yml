@@ -24,6 +24,7 @@ jobs:
         run: |
           # Exclude list: README.md, mod.ts, jsr.json, LICENSE (keep our local versions)
           EXCLUDE="--exclude=README.md --exclude=mod.ts --exclude=jsr.json --exclude=LICENSE"
+          EXCLUDE2="--exclude=README.md --exclude=jsr.json --exclude=LICENSE"
 
           # Copy to jsr_package/universal (both as subfolders to preserve import paths)
           rsync -a $EXCLUDE spry/lib/universal/ jsr_package/universal/
@@ -36,7 +37,7 @@ jobs:
           rsync -a $EXCLUDE spry/lib/reflect/ jsr_package/reflect/
 
           # Copy to jsr_package/spawn (from lib/spawn, includes sql-shell subfolder, and universal as subfolder)
-          rsync -a $EXCLUDE spry/lib/spawn/ jsr_package/spawn/
+          rsync -a $EXCLUDE2 spry/lib/spawn/ jsr_package/spawn/
           rsync -a $EXCLUDE spry/lib/universal/ jsr_package/spawn/universal/
 
           # Copy to jsr_package/tap (from lib/tap)

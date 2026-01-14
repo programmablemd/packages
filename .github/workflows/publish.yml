@@ -27,7 +27,7 @@ jobs:
 
           # Copy to jsr_package/universal (both as subfolders to preserve import paths)
           rsync -a $EXCLUDE spry/lib/universal/ jsr_package/universal/
-          rsync -a $EXCLUDE spry/lib/spawn/ jsr_package/universal/
+          rsync -a $EXCLUDE spry/lib/spawn/ jsr_package/universal/spawn/
 
           # Copy to jsr_package/extend (from lib/extend)
           rsync -a $EXCLUDE spry/lib/extend/ jsr_package/extend/
@@ -37,7 +37,7 @@ jobs:
 
           # Copy to jsr_package/spawn (from lib/spawn, includes sql-shell subfolder, and universal as subfolder)
           rsync -a $EXCLUDE spry/lib/spawn/ jsr_package/spawn/
-          rsync -a $EXCLUDE spry/lib/universal/ jsr_package/spawn/
+          rsync -a $EXCLUDE spry/lib/universal/ jsr_package/spawn/universal/
 
           # Copy to jsr_package/tap (from lib/tap)
           rsync -a $EXCLUDE spry/lib/tap/ jsr_package/tap/

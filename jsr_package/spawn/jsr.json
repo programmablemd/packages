@@ -1,5 +1,5 @@
 {
-  "name": "@spry/universal",
+  "name": "@spry/spawn",
   "version": "1.6.0",
   "exports": "./mod.ts",
   "imports": {

@@ -20,19 +20,55 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           path: spry
 
-      - name: Copy lib/universal and lib/spawn to jsr_package/universal
+      - name: Copy source files from spry repo
         run: |
-          rsync -a --exclude='README.md' spry/lib/universal/ jsr_package/universal/
-          rsync -a --exclude='README.md' spry/lib/spawn/ jsr_package/universal/
+          # Exclude list: README.md, mod.ts, jsr.json, LICENSE (keep our local versions)
+          EXCLUDE="--exclude=README.md --exclude=mod.ts --exclude=jsr.json --exclude=LICENSE"
+          EXCLUDE2="--exclude=README.md --exclude=jsr.json --exclude=LICENSE"
+
+          # Copy to jsr_package/universal (both as subfolders to preserve import paths)
+          rsync -a $EXCLUDE spry/lib/universal/ jsr_package/universal/
+          rsync -a $EXCLUDE spry/lib/spawn/ jsr_package/universal/spawn/
+
+          # Copy to jsr_package/extend (from lib/extend)
+          rsync -a $EXCLUDE spry/lib/extend/ jsr_package/extend/
+
+          # Copy to jsr_package/reflect (from lib/reflect)
+          rsync -a $EXCLUDE spry/lib/reflect/ jsr_package/reflect/
+
+          # Copy to jsr_package/spawn (from lib/spawn, includes sql-shell subfolder, and universal as subfolder)
+          rsync -a $EXCLUDE2 spry/lib/spawn/ jsr_package/spawn/
+          rsync -a $EXCLUDE spry/lib/universal/ jsr_package/spawn/universal/
+
+          # Copy to jsr_package/tap (from lib/tap)
+          rsync -a $EXCLUDE spry/lib/tap/ jsr_package/tap/
+
+      - name: Fix imports for JSR structure
+        run: |
+          # Fix universal package imports: spawn imported into universal/spawn needs to refer to parent universal files
+          # ../universal/event-bus.ts -> ../event-bus.ts
+          find jsr_package/universal/spawn -name "*.ts" -exec sed -i 's|\.\./universal/|\.\./|g' {} +
+
+          # Fix spawn package imports: universal imported into spawn/universal
+          # ../universal/event-bus.ts -> ./universal/event-bus.ts
+          find jsr_package/spawn -maxdepth 1 -name "*.ts" -exec sed -i 's|\.\./universal/|\./universal/|g' {} +
 
       - name: Update jsr.json version from git tag
         run: |
           VERSION=${GITHUB_REF#refs/tags/}
           VERSION=${VERSION#v}
-          cd jsr_package/universal
-          jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+          for pkg in universal extend reflect spawn tap; do
+            echo "Updating version for $pkg to $VERSION"
+            cd jsr_package/$pkg
+            jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+            cd ../..
+          done
 
-      - name: Publish JSR package
+      - name: Publish JSR packages
         run: |
-          cd jsr_package/universal
-          npx jsr publish --allow-dirty --allow-slow-types
+          for pkg in universal extend reflect spawn tap; do
+            echo "Publishing $pkg"
+            cd jsr_package/$pkg
+            npx jsr publish --allow-dirty --allow-slow-types
+            cd ../..
+          done

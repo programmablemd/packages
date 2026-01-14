@@ -1,5 +1,5 @@
 {
-  "name": "@spry/universal",
+  "name": "@spry/extend",
   "version": "1.5.2",
   "exports": "./mod.ts",
   "imports": {

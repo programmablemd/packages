@@ -20,19 +20,43 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           path: spry
 
-      - name: Copy lib/universal and lib/spawn to jsr_package/universal
+      - name: Copy source files from spry repo
         run: |
-          rsync -a --exclude='README.md' spry/lib/universal/ jsr_package/universal/
-          rsync -a --exclude='README.md' spry/lib/spawn/ jsr_package/universal/
+          # Exclude list: README.md, mod.ts, jsr.json, LICENSE (keep our local versions)
+          EXCLUDE="--exclude=README.md --exclude=mod.ts --exclude=jsr.json --exclude=LICENSE"
+
+          # Copy to jsr_package/universal (from lib/universal and lib/spawn)
+          rsync -a $EXCLUDE spry/lib/universal/ jsr_package/universal/
+          rsync -a $EXCLUDE spry/lib/spawn/ jsr_package/universal/
+
+          # Copy to jsr_package/extend (from lib/extend)
+          rsync -a $EXCLUDE spry/lib/extend/ jsr_package/extend/
+
+          # Copy to jsr_package/reflect (from lib/reflect)
+          rsync -a $EXCLUDE spry/lib/reflect/ jsr_package/reflect/
+
+          # Copy to jsr_package/spawn (from lib/spawn, includes sql-shell subfolder)
+          rsync -a $EXCLUDE spry/lib/spawn/ jsr_package/spawn/
+          rsync -a $EXCLUDE spry/lib/universal/ jsr_package/spawn/
+
+          # Copy to jsr_package/tap (from lib/tap)
+          rsync -a $EXCLUDE spry/lib/tap/ jsr_package/tap/
 
       - name: Update jsr.json version from git tag
         run: |
           VERSION=${GITHUB_REF#refs/tags/}
           VERSION=${VERSION#v}
-          cd jsr_package/universal
-          jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+          for pkg in universal extend reflect spawn tap; do
+            cd jsr_package/$pkg
+            jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+            cd ../..
+          done
 
-      - name: Publish JSR package
+      - name: Publish JSR packages
         run: |
-          cd jsr_package/universal
-          npx jsr publish --allow-dirty --allow-slow-types
+          for pkg in universal extend reflect spawn tap; do
+            echo "Publishing @spry/$pkg..."
+            cd jsr_package/$pkg
+            npx jsr publish --allow-dirty --allow-slow-types
+            cd ../..
+          done

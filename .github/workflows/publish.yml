@@ -46,17 +46,53 @@ jobs:
         run: |
           VERSION=${GITHUB_REF#refs/tags/}
           VERSION=${VERSION#v}
+          cd jsr_package/universal
+          jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+          cd ../..
 
-          for pkg in universal extend reflect spawn tap; do
-            jq --arg version "$VERSION" '.version = $version' jsr_package/$pkg/jsr.json > jsr_package/$pkg/jsr.json.tmp
-            mv jsr_package/$pkg/jsr.json.tmp jsr_package/$pkg/jsr.json
-          done
+          #version change for extend
+          cd jsr_package/extend
+          jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+          cd ../..
+
+          #version change for reflect
+          cd jsr_package/reflect
+          jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+          cd ../..
+
+          #version change for spawn
+          cd jsr_package/spawn
+          jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+          cd ../..
+
+          #version change for tap
+          cd jsr_package/tap
+          jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
+          cd ../..
 
       - name: Publish JSR packages
         run: |
-          for pkg in universal extend reflect spawn tap; do
-            echo "Publishing @spry/$pkg..."
-            cd jsr_package/$pkg
-            npx jsr publish --allow-dirty --allow-slow-types
-            cd ../..
-          done
+          #publish universal
+          cd jsr_package/universal
+          npx jsr publish --allow-dirty --allow-slow-types
+          cd ../..
+
+          #publish extend
+          cd jsr_package/extend
+          npx jsr publish --allow-dirty --allow-slow-types
+          cd ../..
+
+          #publish reflect
+          cd jsr_package/reflect
+          npx jsr publish --allow-dirty --allow-slow-types
+          cd ../..
+
+          #publish spawn
+          cd jsr_package/spawn
+          npx jsr publish --allow-dirty --allow-slow-types
+          cd ../..
+
+          #publish tap
+          cd jsr_package/tap
+          npx jsr publish --allow-dirty --allow-slow-types
+          cd ../..

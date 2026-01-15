@@ -1,0 +1,54 @@
+name: Update Homebrew Formulas
+
+on:
+  workflow_run:
+    workflows: ["Build Packages"]
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g. v1.7.0)'
+        required: true
+
+jobs:
+  update-formulas:
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.workflow_run || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout Homebrew Repository
+        uses: actions/checkout@v4
+        with:
+          repository: programmablemd/homebrew-packages
+          token: ${{ secrets.GH_PAT }}
+          fetch-depth: 0
+
+      - name: Run Update Script
+        run: |
+          # Configure Git Identity
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          # Determine version based on trigger event
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${{ github.event.workflow_run.head_branch }}"
+          fi
+          
+          echo "Detected version: $VERSION"
+          
+          # Ensure we have a version
+          if [ -z "$VERSION" ]; then
+            echo "Error: Could not determine version."
+            exit 1
+          fi
+
+          # The script is expected to be in the root of the checked out repo
+          if [ -f "./update-spry-formulas.sh" ]; then
+            chmod +x update-spry-formulas.sh
+            ./update-spry-formulas.sh "$VERSION"
+          else
+            echo "Error: update-spry-formulas.sh not found in the repository root."
+            exit 1
+          fi

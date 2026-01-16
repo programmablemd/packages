@@ -2,7 +2,7 @@
 # DALEC config for packaging spry binary
 
 name: spry
-version: 1.7.0
+version: 1.7.4
 revision: 1
 packager: Spry Team
 vendor: Spry

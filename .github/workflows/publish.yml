@@ -1,4 +1,4 @@
-name: Publish
+name: Publish JSR
 on:
   push:
     tags:
@@ -45,13 +45,29 @@ jobs:
 
       - name: Fix imports for JSR structure
         run: |
-          # Fix universal package imports: spawn imported into universal/spawn needs to refer to parent universal files
+          # Fix universal package: files in root (doctor.ts etc) need to find bundled spawn and same-dir universal
+          # ../spawn/ -> ./spawn/
+          # ../universal/ -> ./
+          find jsr_package/universal -maxdepth 1 -name "*.ts" -exec sed -i 's|import { shell as makeShell } from "../spawn/shell.ts";|import { shell as makeShell } from "./spawn/shell.ts";|g' {} +
+          find jsr_package/universal -maxdepth 1 -name "*.ts" -exec sed -i 's|\.\./universal/|\./|g' {} +
+
+          # Fix universal package subfolder (spawn): needs to refer to parent for universal files
           # ../universal/event-bus.ts -> ../event-bus.ts
           find jsr_package/universal/spawn -name "*.ts" -exec sed -i 's|\.\./universal/|\.\./|g' {} +
 
-          # Fix spawn package imports: universal imported into spawn/universal
-          # ../universal/event-bus.ts -> ./universal/event-bus.ts
+          # Fix spawn package: files in root need to find bundled universal
+          # ../universal/ -> ./universal/
           find jsr_package/spawn -maxdepth 1 -name "*.ts" -exec sed -i 's|\.\./universal/|\./universal/|g' {} +
+
+          # Fix spawn package subfolder (sql-shell):
+          # ../../universal/ -> ../universal/
+          find jsr_package/spawn/sql-shell -name "*.ts" -exec sed -i 's|\.\./\.\./universal/|\.\./universal/|g' {} +
+
+          # Fix spawn package subfolder (universal): 
+          # ../universal/ -> ./
+          # ../spawn/ -> ../
+          find jsr_package/spawn/universal -name "*.ts" -exec sed -i 's|\.\./universal/|\./|g' {} +
+          find jsr_package/spawn/universal -name "*.ts" -exec sed -i 's|\.\./spawn/|\.\./|g' {} +
 
       - name: Update jsr.json version from git tag
         run: |

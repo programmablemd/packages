@@ -43,9 +43,6 @@ jobs:
           # Copy to jsr_package/tap (from lib/tap)
           rsync -a $EXCLUDE spry/lib/tap/ jsr_package/tap/
 
-          # Copy to jsr_package/courier (from lib/courier)
-          rsync -a $EXCLUDE spry/lib/courier/ jsr_package/courier/
-
       - name: Fix imports for JSR structure
         run: |
           # Fix universal package: files in root (doctor.ts etc) need to find bundled spawn and same-dir universal
@@ -66,7 +63,7 @@ jobs:
           # ../../universal/ -> ../universal/
           find jsr_package/spawn/sql-shell -name "*.ts" -exec sed -i 's|\.\./\.\./universal/|\.\./universal/|g' {} +
 
-          # Fix spawn package subfolder (universal): 
+          # Fix spawn package subfolder (universal):
           # ../universal/ -> ./
           # ../spawn/ -> ../
           find jsr_package/spawn/universal -name "*.ts" -exec sed -i 's|\.\./universal/|\./|g' {} +
@@ -76,7 +73,7 @@ jobs:
         run: |
           VERSION=${GITHUB_REF#refs/tags/}
           VERSION=${VERSION#v}
-          for pkg in universal extend reflect spawn tap courier; do
+          for pkg in universal extend reflect spawn tap; do
             echo "Updating version for $pkg to $VERSION"
             cd jsr_package/$pkg
             jq --arg version "$VERSION" '.version = $version' jsr.json > jsr.json.tmp && mv jsr.json.tmp jsr.json
@@ -85,7 +82,7 @@ jobs:
 
       - name: Publish JSR packages
         run: |
-          for pkg in universal extend reflect spawn tap courier; do
+          for pkg in universal extend reflect spawn tap; do
             echo "Publishing $pkg"
             cd jsr_package/$pkg
             npx jsr publish --allow-dirty --allow-slow-types
